@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /Training/Assessment4/
+
+# Checks to see if the user is attempting to access a valid file,
+# such as an image or css document, if not it sends the request to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
