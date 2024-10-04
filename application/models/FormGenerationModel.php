@@ -11,10 +11,10 @@ class FormGenerationModel extends CI_Model {
 
     function form_structure() {
       
-        $this->db->select('tbl_form_structure.*,tbl_form_name.form_name,tbl_form_name.heading'); // Select all columns
-        $this->db->from('tbl_form_structure'); // Specify the table
-        $this->db->join('tbl_form_name', 'tbl_form_structure.form_name_id = tbl_form_name.id', 'left'); // Join with tbl_form_name using a left join
-        $this->db->group_by('tbl_form_structure.form_name_id'); // Group by the 'id' column
+        $this->db->select('tbl_form_structure.*,tbl_form_name.form_name,tbl_form_name.heading'); 
+        $this->db->from('tbl_form_structure');
+        $this->db->join('tbl_form_name', 'tbl_form_structure.form_name_id = tbl_form_name.id', 'left');
+        $this->db->group_by('tbl_form_structure.form_name_id');
     
         $query = $this->db->get(); // Execute the query
         return $query->result(); // Return the result
