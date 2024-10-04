@@ -9,7 +9,7 @@ class FormGenerationController extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('StudentModel');
+        $this->load->model('FormGenerationModel');
         $this->load->helper('url');
         $this->load->library('form_validation');
     }
@@ -23,11 +23,15 @@ class FormGenerationController extends CI_Controller {
         $this->load->view('formGenarationView', $data);
     }
 
-    function fetch_structure(){
+    // Get all structure data
+    public function getAllStructureData() {
+        $form_structure = $this->FormGenerationModel->form_structure();
+        
+        if (!$form_structure) {
+            return []; // Return empty array or handle as needed
+        }
 
-        $form_id = $this->post('id');
-        $form_structure = $this->StudentNodel->fetch_strucrures();
-
+        return $form_structure; // Return the fetched data
     }
 
     
