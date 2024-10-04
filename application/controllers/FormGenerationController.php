@@ -14,6 +14,15 @@ class FormGenerationController extends CI_Controller {
         $this->load->library('form_validation');
     }
 
+    public function index()
+    {
+        $form_structure = $this->getAllStructureData();
+        $data['form_structure'] = $form_structure; 
+        
+        // Pass the data to the view
+        $this->load->view('formGenarationView', $data);
+    }
+
     function fetch_structure(){
 
         $form_id = $this->post('id');
