@@ -28,10 +28,10 @@ class FormGenerationController extends CI_Controller {
         $form_structure = $this->FormGenerationModel->form_structure();
         
         if (!$form_structure) {
-            return []; // Return empty array or handle as needed
+            return [];
         }
 
-        return $form_structure; // Return the fetched data
+        return $form_structure;
     }
 
     
