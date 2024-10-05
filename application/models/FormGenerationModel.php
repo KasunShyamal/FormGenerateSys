@@ -21,7 +21,7 @@ class FormGenerationModel extends CI_Model {
     }
 
     function fetch_structured_fields($id) {
-        $this->db->select('fs.form_name_id, s.seg_name, fs.field_name, dt.html_code as data_html, ft.html_code as field_html, f.heading as title');
+        $this->db->select('fs.form_name_id,s.seg_name, fs.field_name, dt.html_code as data_html, ft.html_code as field_html, f.heading as title');
         $this->db->from('tbl_form_structure fs');
         $this->db->join('tbl_segmant s', 'fs.seg_id = s.id');
         $this->db->join('tbl_data_type dt', 'fs.data_type_id = dt.id');

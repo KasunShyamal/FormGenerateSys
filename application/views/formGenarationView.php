@@ -73,7 +73,10 @@
                 type: 'GET',
                 dataType:'html',
                 success: function(data) {
-                    $('#test').html(data);
+                   // $('#test').html(data);
+                   var newWindow = window.open();
+                   newWindow.document.write(data);
+                   newWindow.document.close(); 
                 },
                 error: function(xhr, status, error) {
                

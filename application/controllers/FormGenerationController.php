@@ -27,6 +27,8 @@ class FormGenerationController extends CI_Controller {
 
         
         $form_structured_fields = $this->FormGenerationModel->fetch_structured_fields($id);
+        // print_r($form_structured_fields);
+        // die();
         
        if($form_structured_fields){
         $data['structured_fields'] = $form_structured_fields;
