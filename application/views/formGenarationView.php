@@ -66,10 +66,21 @@
 
     <script>
         function fetchFormStructure(formId) {
-            // You can implement AJAX request to fetch the form structure
-            // For demonstration, you can alert the ID
-            alert("Fetching form structure for ID: " + formId);
-            // Example AJAX code can be added here
+            $.ajax({
+                url: '<?= base_url('form/get_structure') ?>' + formId,
+                type: 'GET',  // Using POST method to send data
+                data: { form_id: formId },  // Sending the formId as data
+                dataType: 'json',  // Expect JSON response from server
+                success: function(response) {
+                // Handle successful response
+                console.log('Form structure:', response);
+                // You can dynamically render the form structure here using the response data
+            },
+            error: function(xhr, status, error) {
+                // Handle any errors that occur during the request
+                console.error('AJAX request failed:', error);
+            }
+    });
         }
     </script>
 </body>

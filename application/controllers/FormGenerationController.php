@@ -23,9 +23,10 @@ class FormGenerationController extends CI_Controller {
         $this->load->view('formGenarationView', $data);
     }
 
-    function fetch_structure(){
+    function fetch_structure($id){
 
-        $form_id = $this->post('id');
+        var_dup($id);
+        die();
         $form_structure = $this->StudentNodel->fetch_strucrures();
 
     }
