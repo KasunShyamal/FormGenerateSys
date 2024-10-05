@@ -27,13 +27,19 @@ class FormGenerationController extends CI_Controller {
 
         
         $form_structured_fields = $this->FormGenerationModel->fetch_structured_fields($id);
-
-        if($form_structured_fields) {
-            echo json_encode($form_structured_fields);
-        } else {
-            echo json_encode(['error' => 'Structures not found']);
-        }
+        
+       if($form_structured_fields){
+        $data['structured_fields'] = $form_structured_fields;
+        // var_dump($data);
+        // die();
+        // Load the view and pass the data
+        $this->load->view('template/formTemplate', $data);
+       }else{
+        echo json_encode(['error' => 'No form structure found.']);
+       }
+       
     }
+
     // Get all structure data
     public function getAllStructureData() {
         $form_structure = $this->FormGenerationModel->form_structure();

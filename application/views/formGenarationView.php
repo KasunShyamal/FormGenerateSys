@@ -58,6 +58,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
+        <div id ="test"></div>
     </div>
 
     <!-- Bootstrap JS and dependencies (optional) -->
@@ -69,27 +70,10 @@
         function fetchFormStructure(formId) {
             $.ajax({
                 url: '<?= base_url('form/get_structure/') ?>' + formId,
-                type: 'GET',  
-                dataType: 'json', 
-                success: function(response) {
-
-                    $.ajax({
-                        url: '<?= base_url('form/load') ?>',
-                        type: 'POST',
-                        data: JSON.stringify({ data: response }), // Wrap response in an object
-                        contentType: 'application/json', // Set content type to JSON
-                        dataType: 'json',   
-                        success: function(response) {
-                            console.log("Success response: ", response); 
-                            
-                        },
-                        error: function(xhr, status, error) {
-                            console.log("Error status: " + status);  
-                            console.log("Error message: " + error);  
-                            console.log("Response text: " + xhr.responseText);
-                        }
-                    });
-                
+                type: 'GET',
+                dataType:'html',
+                success: function(data) {
+                    $('#test').html(data);
                 },
                 error: function(xhr, status, error) {
                
