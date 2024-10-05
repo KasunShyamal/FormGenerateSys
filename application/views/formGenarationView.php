@@ -46,7 +46,8 @@
                             <td><?php echo htmlspecialchars($structure->form_name); ?></td>
                             <td><?php echo htmlspecialchars($structure->heading); ?></td>
                             <td>
-                                <button type="button" class="btn btn-success" onclick="fetchFormStructure(<?php echo $structure->id; ?>)">Generate Form</button>
+                            <button type="button" class="btn btn-success" onclick="fetchFormStructure(<?php echo $structure->form_name_id; ?>)">Generate Form</button>
+
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -60,27 +61,41 @@
     </div>
 
     <!-- Bootstrap JS and dependencies (optional) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
         function fetchFormStructure(formId) {
             $.ajax({
-                url: '<?= base_url('form/get_structure') ?>' + formId,
-                type: 'GET',  // Using POST method to send data
-                data: { form_id: formId },  // Sending the formId as data
-                dataType: 'json',  // Expect JSON response from server
+                url: '<?= base_url('form/get_structure/') ?>' + formId,
+                type: 'GET',  
+                dataType: 'json', 
                 success: function(response) {
-                // Handle successful response
-                console.log('Form structure:', response);
-                // You can dynamically render the form structure here using the response data
-            },
-            error: function(xhr, status, error) {
-                // Handle any errors that occur during the request
-                console.error('AJAX request failed:', error);
-            }
-    });
+
+                    $.ajax({
+                        url: '<?= base_url('form/load') ?>',
+                        type: 'POST',
+                        data: JSON.stringify({ data: response }), // Wrap response in an object
+                        contentType: 'application/json', // Set content type to JSON
+                        dataType: 'json',   
+                        success: function(response) {
+                            console.log("Success response: ", response); 
+                            
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("Error status: " + status);  
+                            console.log("Error message: " + error);  
+                            console.log("Response text: " + xhr.responseText);
+                        }
+                    });
+                
+                },
+                error: function(xhr, status, error) {
+               
+                    console.error('AJAX request failed:', error);
+                }
+            });
         }
     </script>
 </body>

@@ -23,10 +23,16 @@ class FormGenerationController extends CI_Controller {
         $this->load->view('formGenarationView', $data);
     }
 
-    function fetch_structure($id){
+    public function fetch_structure($id){
 
         
-        $form_structure = $this->StudentNodel->fetch_strucrures();
+        $form_structured_fields = $this->FormGenerationModel->fetch_structured_fields($id);
+
+        if($form_structured_fields) {
+            echo json_encode($form_structured_fields);
+        } else {
+            echo json_encode(['error' => 'Structures not found']);
+        }
     }
     // Get all structure data
     public function getAllStructureData() {
