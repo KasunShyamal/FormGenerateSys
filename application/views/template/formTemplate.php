@@ -1,14 +1,10 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SMS - Dynamic Form</title>
+    <link rel="stylesheet" href="https://parsleyjs.org/src/parsley.css"> <!-- Parsley CSS -->
     <style>
         /* For radio button container */
         .radio-group {
@@ -135,66 +131,91 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     </style>
 </head>
-
 <body>
-
     <div class="container">
-        <?php
-        // print_r($structured_fields);
-        // die();
-        // Check if structured_fields is not empty
-        if (!empty($structured_fields)): ?>
+        <?php if (!empty($structured_fields)): ?>
+            <form id="dynamicForm" data-parsley-validate> <!-- Form tag for validation -->
+                <h2><?php echo htmlspecialchars($structured_fields['heading']); ?></h2>
 
-            <h2><?php echo htmlspecialchars($structured_fields['heading']); ?></h2> <!-- Display the heading -->
+                <?php foreach ($structured_fields['fields'] as $segment_name => $fields): ?>
+                    <h3 style="color: green; border-bottom: 2px solid green; padding-bottom: 5px;">
+                        <?php echo htmlspecialchars($segment_name); ?>
+                    </h3>
+                    
+                    <div class="field-container">
+                        <?php foreach ($fields as $field):
+                            // Load and parse the dynamic field
+                            $doc = new DOMDocument();
+                            @$doc->loadHTML($field);
+                            
+                            // Handle select elements
+                            $selectElement = $doc->getElementsByTagName('select')->item(0);
+                            if ($selectElement && $selectElement->hasAttribute('id')) {
+                                echo htmlspecialchars($selectElement->getAttribute('id')) . " ";
+                                $selectElement->setAttribute('required', 'required'); // Make select required
+                                echo $doc->saveHTML($selectElement) . "<br>";
+                            }
 
-            <?php
-            // Loop through each segment (e.g., 'Personal')
-            foreach ($structured_fields['fields'] as $segment_name => $fields): ?>
-                <h3 style="color: green; border-bottom: 2px solid green; padding-bottom: 5px;">
-                    <?php echo htmlspecialchars($segment_name); ?>
-                </h3> <!-- Segment name -->
+                            // Handle input elements
+                            $inputElement = $doc->getElementsByTagName('input')->item(0);
+                            if ($inputElement && $inputElement->hasAttribute('id')) {
+                                $inputType = $inputElement->getAttribute('type');
+                                
+                                // Dynamically add required and validation attributes
+                                if ($inputType === 'text') {
+                                    echo htmlspecialchars($inputElement->getAttribute('id')) . " ";
+                                    $inputElement->setAttribute('required', 'required');
+                                    $inputElement->setAttribute('data-parsley-pattern', '^[a-zA-Z ]+$'); // Example: Only letters
+                                    $inputElement->setAttribute('data-parsley-trigger', 'change');
+                                } elseif ($inputType === 'email') {
+                                    $inputElement->setAttribute('required', 'required');
+                                    $inputElement->setAttribute('data-parsley-type', 'email'); // Validate email format
+                                } elseif ($inputType === 'number') {
+                                    echo htmlspecialchars($inputElement->getAttribute('id')) . " ";
+                                    $inputElement->setAttribute('required', 'required');
+                                    $inputElement->setAttribute('data-parsley-type', 'number'); // Validate numbers only
+                                    $inputElement->setAttribute('min', '1'); // Min value for example
+                                } elseif ($inputElement->getAttribute('id') === 'mobile') {
+                                    echo htmlspecialchars($inputElement->getAttribute('id')) . " ";
+                                    $inputElement->setAttribute('required', 'required');
+                                    $inputElement->setAttribute('data-parsley-pattern', '^\\d{10}$'); // Mobile: 10 digits
+                                    $inputElement->setAttribute('data-parsley-trigger', 'change');
+                                    $inputElement->setAttribute('data-parsley-error-message', 'Enter a valid 10-digit mobile number');
+                                }
+                                echo $doc->saveHTML($inputElement) . "<br>";
+                            }
 
-                <div class="field-container">
-                    <?php
-                    // Loop through each field in the segment
-                    foreach ($fields as $field):
-                        // Create a new DOMDocument instance
-                        $doc = new DOMDocument();
-
-                        // Suppress errors when loading HTML
-                        @$doc->loadHTML($field);
-                        
-                        // Check for select elements
-                        $selectElement = $doc->getElementsByTagName('select')->item(0);
-                        if ($selectElement && $selectElement->hasAttribute('id')) {
-                            echo htmlspecialchars($selectElement->getAttribute('id')) . " ";
-                        }
-
-                        // Check for input elements
-                        $inputElement = $doc->getElementsByTagName('input')->item(0);
-                        if ($inputElement && $inputElement->hasAttribute('id')) {
-                            echo htmlspecialchars($inputElement->getAttribute('id')) . " ";
-                        }
-
-                        // Check for textarea elements
-                        $textareaElement = $doc->getElementsByTagName('textarea')->item(0);
-                        if ($textareaElement && $textareaElement->hasAttribute('id')) {
-                            echo htmlspecialchars($textareaElement->getAttribute('id')) . " ";
-                        }
-
-                        // Print the original field
-                        echo $field . "<br>";
-
-                    endforeach; ?>
-                </div>
-
-            <?php endforeach; ?>
-
+                            // Handle textarea elements
+                            $textareaElement = $doc->getElementsByTagName('textarea')->item(0);
+                            if ($textareaElement && $textareaElement->hasAttribute('id')) {
+                                echo htmlspecialchars($textareaElement->getAttribute('id')) . " ";
+                                $textareaElement->setAttribute('required', 'required'); // Make textarea required
+                                $textareaElement->setAttribute('data-parsley-trigger', 'change');
+                                echo $doc->saveHTML($textareaElement) . "<br>";
+                            }
+                        endforeach; ?>
+                    </div>
+                <?php endforeach; ?>
+                <button type="submit" class="btn">Submit</button>
+            </form>
         <?php else: ?>
             <p class="no-fields">No fields to display.</p>
         <?php endif; ?>
     </div>
 
-</body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://parsleyjs.org/dist/parsley.min.js"></script> <!-- Parsley JS -->
+    <script>
+        $(document).ready(function() {
+            // Initialize Parsley for form validation
+            $('#dynamicForm').parsley();
 
+            // Custom validation messages can be added if needed
+            window.Parsley.addMessages('en', {
+                defaultMessage: "This value seems to be invalid.",
+                required: "This field is required."
+            });
+        });
+    </script>
+</body>
 </html>
