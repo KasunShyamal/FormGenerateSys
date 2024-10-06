@@ -54,5 +54,7 @@ $route['form/load'] = 'LoadFileController';
 $route['form/get_structure/(:num)'] = 'FormGenerationController/fetch_structure/$1';
 $route['SegmentController/add_segment'] = 'SegmentController/add_segment';
 $route['FormNameController/add_form_name'] = 'FormNameController/add_form_name';
+$route['FormStructure'] = 'FormStructureController';
+$route['FormStructureController/add_form_structure'] = 'FormStructureController/add_form_structure';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
