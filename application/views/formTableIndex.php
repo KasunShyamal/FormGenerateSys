@@ -15,43 +15,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Bootstrap Multiselect CSS -->
     <link rel="stylesheet" href="css/bootstrap-multiselect.css">
 
-
     
-
 </head>
 <body>
-    
-    <table id="formList" class="table table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Form Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach($form_names as $index => $form){
-                // var_dump($form);die;
-                $form_id = $form->id;
-            ?>
-                <tr>
-                    <td><?php echo ($index + 1); ?></td>
-                    <td><?php echo $form->heading; ?></td>
-                    <td>
-                        <!-- <button class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="editForm(<?php echo $form_id; ?>)" title="Edit" style="margin-left: 10px;"><i class="bi bi-pencil-square"></i> Edit</button> -->
-                        <button class="btn btn-secondary btn-sm" href="javascript:void(0);" onclick="viewForm(<?php echo $form_id; ?>)" title="View" style="margin-left: 10px;"><i class="bi bi-eye"></i> View</button>
-                        <button class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteForm(<?php echo $form_id; ?>)" title="Delete" style="margin-left: 10px;"><i class="bi bi-trash"></i> Delete</button>
-                        <button class="btn btn-success btn-sm" href="javascript:void(0);" onclick="generateFormTable(<?php echo $form_id; ?>)" title="Generate Form Table" style="margin-left: 10px;"><i class="bi bi-table"></i> Generate Table</button>
-                        <!-- <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#formTableModal" data-form-id="<?php echo $form_id; ?>" title="Generate Form Table" style="margin-left: 10px;"><i class="bi bi-table"></i> Generate Table</button> -->
-                    </td>
-                </tr>
-            <?php
-            }
-            ?>
-        </tbody>
-        
-    </table>
+    <div class="container justify-content-center mt-3">
+        <h3>Form List</h3>
+        <div class="mt-5">
+            <table id="formList" class="table table-striped p-3 border bg-light mt-3" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width: 10%">#</th>
+                        <th style="width: 50%">Form Name</th>
+                        <th style="width: 40%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($form_names as $index => $form){
+                        // var_dump($form);die;
+                        $form_id = $form->id;
+                    ?>
+                        <tr>
+                            <td><?php echo ($index + 1); ?></td>
+                            <td><?php echo $form->heading; ?></td>
+                            <td>
+                                <!-- <button class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="editForm(<?php echo $form_id; ?>)" title="Edit" style="margin-left: 10px;"><i class="bi bi-pencil-square"></i> Edit</button> -->
+                                <button class="btn btn-secondary btn-sm" href="javascript:void(0);" onclick="viewForm(<?php echo $form_id; ?>)" title="View" style="margin-left: 10px;"><i class="bi bi-eye"></i> View</button>
+                                <button class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteForm(<?php echo $form_id; ?>)" title="Delete" style="margin-left: 10px;"><i class="bi bi-trash"></i> Delete</button>
+                                <button class="btn btn-success btn-sm" href="javascript:void(0);" onclick="generateFormTable(<?php echo $form_id; ?>)" title="Generate Form Table" style="margin-left: 10px;"><i class="bi bi-table"></i> Generate Table</button>
+                                <!-- <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#formTableModal" data-form-id="<?php echo $form_id; ?>" title="Generate Form Table" style="margin-left: 10px;"><i class="bi bi-table"></i> Generate Table</button> -->
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
 
     <!-- generate table -->
     <div class="modal fade" id="formTableModal" tabindex="-1" aria-labelledby="formTableModalLabel" aria-hidden="true">
@@ -77,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitFormTable()">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="submitFormTable()">Create</button>
                 </div>
             </div>
         </div>
@@ -100,12 +102,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
     function generateFormTable(formId) {
-        // Replace the content inside the modal with a loading message
-        // $('#formTableModal .modal-body').html('<p>Loading...</p>');
         
-        // Make an AJAX request to fetch the form data
         $.ajax({
-            url: "<?php echo base_url('FormTableCon/get_form_fields'); ?>", // Replace with your actual server endpoint
+            url: "<?php echo base_url('FormTableCon/get_form_fields'); ?>", 
             type: 'POST',
             data: { 
                 form_id: formId 

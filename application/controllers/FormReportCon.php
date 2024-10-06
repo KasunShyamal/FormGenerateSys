@@ -2,12 +2,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-class FormTableCon extends CI_Controller {
+class FormReportCon extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('FormTableMod');
+        $this->load->model('FormReportMod');
         $this->load->library('session');
     }
 
@@ -16,8 +16,16 @@ class FormTableCon extends CI_Controller {
         $this->load->view('formTableIndex', $data);
     }
 
-    
-    public function get_form_fields(){
+    public function get_form_data(){
+        $form_names = $this->FormTableMod->get_form_names();
+        if ($form_names != NULL) {
+            echo json_encode(['data' => $form_names]);
+        } else {
+            echo json_encode(['data' => []]);
+        }
+    }
+
+    public function get_report_data(){
         $form_id = $this->input->post('form_id');
 
         $fields = $this->FormTableMod->get_form_fields($form_id);

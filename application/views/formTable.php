@@ -19,40 +19,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
     
-    <table id="formList" class="table table-striped" style="width:100%">
-        <h3><?php echo $table_heading; ?></h3>
-        <thead>
-            <tr>
-                <th>#</th>
-                <?php
-                foreach($table_col as $column){
+<div class="container justify-content-center mt-3">
+    <div class="clearfix">
+        <h3 class="float-start"><?php echo $table_heading; ?></h3>
+        <button class="btn btn-success mt-2 float-end" onclick="generateReport()">GENERATE REPORT</button>
+    </div>
+    <div class="mt-5">
+        <table id="formList" class="table table-striped p-3 border bg-light mt-3" style="width:100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <?php
+                    foreach($table_col as $column){
+                        ?>
+                        <th><?php echo strtoupper($column['field_name']);  ?></th>
+                    <?php
+                    }
                     ?>
-                    <th><?php echo strtoupper($column['field_name']);  ?></th>
-                <?php
-                }
-                ?>
-            </tr>
-        </thead>
-        <tbody>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
             
-        </tbody>
-        
-    </table>
+        </table>
 
-    <!-- generate table
-    <div class="modal fade" id="formTableModal" tabindex="-1" aria-labelledby="formTableModalLabel" aria-hidden="true">
+    </div>
+
+</div>
+
+    <div class="modal fade" id="formReportModal" tabindex="-1" aria-labelledby="formReportModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formTableModalLabel">Generate Form Table</h5>
+                    <h5 class="modal-title" id="formReportModalLabel">Generate Report</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formTableForm">
+                    <form id="formReportForm">
                         <div class="mb-3">
-                            <label for="form_list" class="form-label">Select Form Fields</label>
+                            <label for="report_title" class="form-label">Report Title</label>
+                            <input type="text" name="report_title" id="report_title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="report_list" class="form-label">Select Form Fields</label>
                             
-                            <div id="form_list">
+                            <div id="report_list">
                                 
                             </div>
                         </div>
@@ -60,11 +72,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitFormTable()">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="submitReport()">Create</button>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
 </body>
 </html>
@@ -82,13 +94,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var table = $('#formList').DataTable();
     });
 
-    function generateFormTable(formId) {
-        // Replace the content inside the modal with a loading message
-        // $('#formTableModal .modal-body').html('<p>Loading...</p>');
+    function generateReport(formId) {
         
-        // Make an AJAX request to fetch the form data
         $.ajax({
-            url: "<?php echo base_url('FormTableCon/get_form_fields'); ?>", // Replace with your actual server endpoint
+            url: "<?php echo base_url('FormReportCon/get_report_data'); ?>", 
             type: 'POST',
             data: { 
                 form_id: formId 
@@ -96,11 +105,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType: 'json',
             success: function(data) {
                 if (data.success) {
-                    $('#form_list').empty();
-                    $('#formTableModal').modal('show');
+                    $('#report_list').empty();
+                    $('#formReportModal').modal('show');
                     
                     $.each(data.options, function(index, option) {
-                        $('#form_list').append(` 
+                        $('#report_list').append(` 
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="option-${option.id}" value="${option.id}">
                             <label class="form-check-label" for="option-${option.id}">${option.field_name}</label>
@@ -122,34 +131,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
 
     function submitFormTable() {
-        // Get form data
-        // var form_fields = $('#form_list').val();
-
+        
+        var form_id = $('#form_id input[name="form_name_id"]').val();
+        
         var form_fields = [];
-        $('#form_list input[type="checkbox"]:checked').each(function() {
+        $('#report_list input[type="checkbox"]:checked').each(function() {
             form_fields.push($(this).val());
         });
-        // AJAX POST request
+
+        
         $.ajax({
-            url: "<?php echo base_url('FormTableCon/save_form_table'); ?>",  // Update with your actual endpoint
+            url: "<?php echo base_url('FormTableCon/save_form_table'); ?>",  
             type: "POST",
             data: {
                 form_fields: form_fields,
+                form_id: form_id,
             },
             success: function(response) {
-                // Parse JSON response from the server
-                var result = JSON.parse(response);
-                
-                if (result.status === 'success') {
-                    alert(result.message);
-                    // Optionally, refresh data on the page or update UI
+                var data = JSON.parse(response);
+                if (data.success) {
+                    alert('Form saved successfully!');
+                    $('#formTableModal').modal('hide');
+                    window.location.href = data.redirect; 
                 } else {
-                    alert('Error: ' + result.message);
+                    alert('An error occurred while saving the data.');
                 }
-                
-                // Close the modal
-                var modal = bootstrap.Modal.getInstance(document.getElementById('formTableModal'));
-                modal.hide();
             },
             error: function() {
                 alert('An error occurred while saving the data.');
