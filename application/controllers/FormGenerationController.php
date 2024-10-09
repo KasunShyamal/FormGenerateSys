@@ -32,8 +32,7 @@ class FormGenerationController extends CI_Controller {
         
        if($form_structured_fields){
         $data['structured_fields'] = $form_structured_fields;
-        // var_dump($data);
-        // die();
+        
         // Load the view and pass the data
         $this->load->view('template/formTemplate', $data);
        }else{
