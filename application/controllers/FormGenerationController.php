@@ -52,6 +52,11 @@ class FormGenerationController extends CI_Controller {
         return $form_structure;
     }
 
+    public function add(){
+        var_dump($_POST);
+        die();
+    }
+
     
 
 }

@@ -215,6 +215,42 @@
                 defaultMessage: "This value seems to be invalid.",
                 required: "This field is required."
             });
+
+
+            $('#dynamicForm').on('submit', function(e) {
+                e.preventDefault();
+
+                if ($(this).parsley().isValid()) {
+                    
+                    console.log('Form validation passed');
+                    var formData = $(this).serialize();
+
+                    $.ajax({
+                    url: <?= base_url('form/add') ?>', 
+                    type: 'POST',
+                    data: formData,
+                    beforeSend: function() {
+                       
+                        $('.btn').prop('disabled', true).text('Submitting...');
+                    },
+                    success: function(response) {
+                        
+                        alert('Form submitted successfully!');
+                        
+                        $('#dynamicForm')[0].reset();
+                        $('.btn').prop('disabled', false).text('Submit');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        
+                        alert('There was an error submitting the form: ' + errorThrown);
+                        $('.btn').prop('disabled', false).text('Submit');
+                    }
+                });
+
+                }else{
+                    console.log('Form validation failed');
+                }
+            });
         });
     </script>
 </body>
