@@ -12,6 +12,15 @@ class SegmentController extends CI_Controller
 		$this->load->library('form_validation');
 	}
 
+	public function index()
+	{
+		$segments = $this->SegmentModel->get_segments();
+		$data = [
+			'segments' => $segments
+		];
+		$this->load->view('segment_view', $data);
+	}
+
 	public function add_segment()
 	{
 		$data = array(

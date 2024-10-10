@@ -10,6 +10,14 @@ class SegmentModel extends CI_Model
 		$this->load->database();
 	}
 
+	public function get_segments()
+	{
+		$this->db->select('tbl_segmant.*');
+		$this->db->from('tbl_segmant');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function insert_segment($data)
 	{
 		$this->db->insert('tbl_segmant', $data);

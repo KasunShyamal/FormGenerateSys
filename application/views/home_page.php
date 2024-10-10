@@ -92,7 +92,7 @@
 
 
             <!-- Include the pop-ups from separate views -->
-            <?php $this->load->view('segmant'); ?> <!-- Load first pop-up -->
+            <?php $this->load->view('segment_view'); ?> <!-- Load first pop-up -->
             <?php $this->load->view('formNameView'); ?> <!-- Load second pop-up -->
             <?php $this->load->view('datatype'); ?> <!-- Load third pop-up -->
             <?php $this->load->view('fieldtype'); ?> <!-- Load third pop-up -->
