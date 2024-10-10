@@ -29,6 +29,8 @@
 
 <button type="button" class="btn btn-primary" id="addNew" style="width: 150px; height: 80px; margin: 0 20px">Add New</button>
 <?php $this->load->view('formname'); ?>
+	<button type="button" class="btn btn-primary" id="editNew" style="width: 150px; height: 80px; margin: 0 20px">Edit</button>
+	<?php $this->load->view('formname'); ?>
 <table>
 	<thead>
 	<tr>
@@ -59,6 +61,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 	$('#addNew').on('click', function() {
+		$('#formNameModal').modal('show');
+	});
+
+	$('#editNew').on('click', function() {
 		$('#formNameModal').modal('show');
 	});
 </script>
