@@ -20,6 +20,10 @@ class FormNameModel extends CI_Model
 		}
 	}
 
+	public function getAllData(){
+		return $this->db->insert('tbl_form_name');
+	}
+
 }
 
 ?>
