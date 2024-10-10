@@ -21,7 +21,10 @@ class FormNameModel extends CI_Model
 	}
 
 	public function getAllData(){
-		return $this->db->insert('tbl_form_name');
+		 $this->db->select('*');
+		 $this->db->from('tbl_form_name');
+		 $query = $this->db->get();
+		 return $query->result();
 	}
 
 }

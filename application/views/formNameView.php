@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<div class="modal" id="myModal2" tabindex="-1" role="dialog">
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Data Table</title>
@@ -23,13 +22,12 @@
 			margin-bottom: 20px;
 		}
 	</style>
-</head>
-<body>
+
 <h2>Data Table</h2>
 
 <!-- Add New Entry Button -->
 
-<button type="button" class="btn btn-primary" id="openModalBtn2" style="width: 150px; height: 80px; margin: 0 20px">Add New</button>
+<button type="button" class="btn btn-primary" id="addNew" style="width: 150px; height: 80px; margin: 0 20px">Add New</button>
 <?php $this->load->view('formname'); ?>
 <table>
 	<thead>
@@ -57,10 +55,11 @@
 	<?php endif; ?>
 	</tbody>
 </table>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-	$('#openModalBtn2').on('click', function() {
-		$('#myModal2').modal('show');
+	$('#addNew').on('click', function() {
+		$('#formNameModal').modal('show');
 	});
 </script>
-</body>
-</html>
+</div>

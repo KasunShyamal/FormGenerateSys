@@ -15,6 +15,7 @@ class FormNameController extends CI_Controller
 
 
 	function index(){
+		var_dump('dcdd');die();
 		$res = $this->FormNameModel->getAllData();
 		$data['records'] = $res;  // Pass data to the view
 		$this->load->view('formNameView', $data);
