@@ -28,7 +28,7 @@
 <h2>Data Table</h2>
 
 <!-- Add New Entry Button -->
-<a href="<?= base_url('formname'); ?>" class="new-entry-btn">
+<a href="<?= base_url('formName/add_form_name/'); ?>" class="new-entry-btn">
 	<button>Add New Entry</button>
 </a>
 
