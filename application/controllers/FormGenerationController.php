@@ -57,16 +57,24 @@ class FormGenerationController extends CI_Controller {
 
         print_r($_POST);
         die();
+
+        $array=$_POST;
+
+        unset($array['id'], $array['formName']);
         
         $form_id = $this->input->post("id");
         $form_name = $this->input->post("formName");
         
         $formFields = $this->FormGenerationModel->getformFields($form_id);
+        // print_r($formFields);
+        // die();
         
         $existing = $this->FormGenerationModel->checkTable($form_name);
 
 
         if($existing){
+            $insertData = $this->FormGenerationModel->insertValue($form_name,$array);
+  
             
         }else{
             // Start building the CREATE TABLE query
@@ -90,6 +98,11 @@ class FormGenerationController extends CI_Controller {
             $query .= ");";
 
             $execute = $this->FormGenerationModel->executeQuery($query);
+            if($execute){
+                $insertData = $this->FormGenerationModel->insertValue($form_name,$array);
+              
+            }
+
 
             
         }

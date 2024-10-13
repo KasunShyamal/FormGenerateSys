@@ -95,6 +95,13 @@ class FormGenerationModel extends CI_Model {
             return false;
         }
     }
+
+    //insert data
+    function insertValue($formname,$data){
+        print_r($data);
+        die();
+       return $this->db->insert($formname,$data);       
+    }
     
     
 }
