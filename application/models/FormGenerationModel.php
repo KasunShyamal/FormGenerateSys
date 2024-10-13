@@ -98,8 +98,7 @@ class FormGenerationModel extends CI_Model {
 
     //insert data
     function insertValue($formname,$data){
-        print_r($data);
-        die();
+       
        return $this->db->insert($formname,$data);       
     }
     

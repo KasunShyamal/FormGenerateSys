@@ -56,14 +56,12 @@ class FormGenerationController extends CI_Controller {
 
     public function add(){
 
-
-        print_r($_POST);
-        die();
-
         $array=$_POST;
-
+        
         unset($array['id'], $array['formName']);
         
+        
+
         $form_id = $this->input->post("id");
         $form_name = $this->input->post("formName");
         
