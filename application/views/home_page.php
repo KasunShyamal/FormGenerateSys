@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>PHP Home Page with Sidebar</title>
+	<title>Dynamic Form Generation</title>
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -48,15 +48,17 @@
 <body>
 
 	<div class="sidebar">
-	<a href="<?= base_url('home'); ?>">Home</a>
-        <a href="<?= base_url('segment'); ?>">Segment</a>
-        <a href="<?= base_url('form_name'); ?>">Form Name</a>
-        <a href="<?= base_url('form/generate'); ?>">Form Generate</a>
+		<a href="<?= base_url('home'); ?>">Home</a>
+		<a href="<?= base_url('form/segment'); ?>">Segment</a>
+		<a href="<?= base_url('form/name'); ?>">Form Name</a>
+		<a href="<?= base_url('form/structure'); ?>">Form Structure</a>
+		<a href="<?= base_url('form/generate'); ?>">Form Generate</a>
 	</div>
 
 	<div class="content">
-		 <!-- Load dynamic content here -->
-		 <?php if (isset($content)) echo $content; ?>
+		<!-- Load dynamic content here -->
+		<?php if (isset($content))
+			echo $content; ?>
 	</div>
 
 </body>
