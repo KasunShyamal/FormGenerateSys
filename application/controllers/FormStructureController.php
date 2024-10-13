@@ -26,7 +26,8 @@ class FormStructureController extends CI_Controller
 			'data_types' => $data_types,
 			'field_types' => $field_types,
 		];
-		$this->load->view('formStructure', $data);
+		$data1['content'] = $this->load->view('formStructure', $data, true);
+		$this->load->view('home_page', $data1);
 	}
 
 	public function getFormNames()
