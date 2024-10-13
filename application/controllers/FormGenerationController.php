@@ -53,8 +53,47 @@ class FormGenerationController extends CI_Controller {
     }
 
     public function add(){
-        var_dump($_POST);
+
+
+        print_r($_POST);
         die();
+        
+        $form_id = $this->input->post("id");
+        $form_name = $this->input->post("formName");
+        
+        $formFields = $this->FormGenerationModel->getformFields($form_id);
+        
+        $existing = $this->FormGenerationModel->checkTable($form_name);
+
+
+        if($existing){
+            
+        }else{
+            // Start building the CREATE TABLE query
+            $query = "CREATE TABLE `$form_name` (\n";
+            $query .= "  `id` INT AUTO_INCREMENT PRIMARY KEY,\n";
+
+            // Loop through each field to add column definitions
+            foreach ($formFields as $field) {
+                $field_name = $field->field_name;
+                $type = strtoupper($field->type);  // Ensure SQL type is in uppercase (e.g., VARCHAR)
+                $length = $field->length;
+
+                // Add the column definition to the query
+                $query .= "  `$field_name` $type($length),\n";
+            }
+
+            // Remove the trailing comma from the last column definition
+            $query = rtrim($query, ",\n") . "\n";
+
+            // Close the query with the primary key (assuming the first column is the primary key)
+            $query .= ");";
+
+            $execute = $this->FormGenerationModel->executeQuery($query);
+
+            
+        }
+        
     }
 
     
