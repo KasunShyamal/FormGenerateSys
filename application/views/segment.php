@@ -157,26 +157,30 @@
 <!-- Segment Table -->
 <table>
 	<thead>
-	<tr>
-		<th>Segment Name</th>
-		<th>Action</th>
-	</tr>
+		<tr>
+			<th>ID</th>
+			<th>Segment Name</th>
+			<th>Action</th>
+		</tr>
 	</thead>
 	<tbody>
-	<?php if (!empty($segments)): ?>
-		<?php foreach ($segments as $segment) { ?>
+		<?php if (!empty($segments)): ?>
+			<?php $count = 1; ?>
+			<?php foreach ($segments as $segment) { ?>
+				<tr>
+					<td><?php echo $count++; ?></td>
+					<td><?php echo $segment->seg_name ?></td>
+					<td>
+						<button class="btn btn-primary"
+							onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
+					</td>
+				</tr>
+			<?php } ?>
+		<?php else: ?>
 			<tr>
-				<td><?php echo $segment->seg_name ?></td>
-				<td>
-					<button class="btn btn-primary" onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
-				</td>
+				<td colspan="3">No records found</td>
 			</tr>
-		<?php } ?>
-	<?php else: ?>
-		<tr>
-			<td colspan="3">No records found</td>
-		</tr>
-	<?php endif; ?>
+		<?php endif; ?>
 	</tbody>
 </table>
 

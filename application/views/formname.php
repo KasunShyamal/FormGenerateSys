@@ -7,7 +7,8 @@
 		box-sizing: border-box;
 	}
 
-	#addNew, #editNew {
+	#addNew,
+	#editNew {
 		width: 150px;
 		height: 50px;
 		background-color: #007bff;
@@ -20,7 +21,8 @@
 		margin: 20px;
 	}
 
-	#addNew:hover, #editNew:hover {
+	#addNew:hover,
+	#editNew:hover {
 		background-color: #0056b3;
 	}
 
@@ -95,7 +97,8 @@
 		cursor: pointer;
 	}
 
-	.close:hover, .close:focus {
+	.close:hover,
+	.close:focus {
 		color: #000;
 	}
 
@@ -155,30 +158,34 @@
 <!-- Table displaying form data -->
 <table>
 	<thead>
-	<tr>
-		<th>Form Name</th>
-		<th>Heading</th>
-		<th>Type</th>
-		<th>Action</th>
-	</tr>
+		<tr>
+			<th>ID</th>
+			<th>Form Name</th>
+			<th>Heading</th>
+			<th>Type</th>
+			<th>Action</th>
+		</tr>
 	</thead>
 	<tbody>
-	<?php if (!empty($records)): ?>
-		<?php foreach ($records as $record) { ?>
+		<?php if (!empty($records)): ?>
+			<?php $count = 1; ?>
+			<?php foreach ($records as $record) { ?>
+				<tr>
+					<td><?php echo $count++; ?></td>
+					<td><?php echo $record->form_name ?></td>
+					<td><?php echo $record->heading ?></td>
+					<td><?php echo $record->type ?></td>
+					<td>
+						<button class="btn btn-primary"
+							onclick="openEditModal('<?= $record->id ?>', '<?= $record->form_name ?>', '<?= $record->heading ?>', '<?= $record->type ?>')">Edit</button>
+					</td>
+				</tr>
+			<?php } ?>
+		<?php else: ?>
 			<tr>
-				<td><?= $record->form_name ?></td>
-				<td><?= $record->heading ?></td>
-				<td><?= $record->type ?></td>
-				<td>
-					<button class="btn btn-primary" onclick="openEditModal('<?= $record->id ?>', '<?= $record->form_name ?>', '<?= $record->heading ?>', '<?= $record->type ?>')">Edit</button>
-				</td>
+				<td colspan="4">No records found</td>
 			</tr>
-		<?php } ?>
-	<?php else: ?>
-		<tr>
-			<td colspan="4">No records found</td>
-		</tr>
-	<?php endif; ?>
+		<?php endif; ?>
 	</tbody>
 </table>
 
