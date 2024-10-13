@@ -126,6 +126,11 @@
 		box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
 	}
 
+	.error-message {
+		color: red;
+		font-size: 12px;
+	}
+
 	.btn-primary {
 		background-color: #007bff;
 		border: none;
@@ -157,30 +162,30 @@
 <!-- Segment Table -->
 <table>
 	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Segment Name</th>
-			<th>Action</th>
-		</tr>
+	<tr>
+		<th>ID</th>
+		<th>Segment Name</th>
+		<th>Action</th>
+	</tr>
 	</thead>
 	<tbody>
-		<?php if (!empty($segments)): ?>
-			<?php $count = 1; ?>
-			<?php foreach ($segments as $segment) { ?>
-				<tr>
-					<td><?php echo $count++; ?></td>
-					<td><?php echo $segment->seg_name ?></td>
-					<td>
-						<button class="btn btn-primary"
-							onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
-					</td>
-				</tr>
-			<?php } ?>
-		<?php else: ?>
+	<?php if (!empty($segments)): ?>
+		<?php $count = 1; ?>
+		<?php foreach ($segments as $segment) { ?>
 			<tr>
-				<td colspan="3">No records found</td>
+				<td><?php echo $count++; ?></td>
+				<td><?php echo $segment->seg_name ?></td>
+				<td>
+					<button class="btn btn-primary"
+							onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
+				</td>
 			</tr>
-		<?php endif; ?>
+		<?php } ?>
+	<?php else: ?>
+		<tr>
+			<td colspan="3">No records found</td>
+		</tr>
+	<?php endif; ?>
 	</tbody>
 </table>
 
@@ -194,7 +199,7 @@
 		<div class="modal-body">
 			<form id="segmentForm">
 				<div class="form-group">
-					<label for="segmentName">Segment Name</label>
+					<label for="segmentName">Segment Name <span class="error-message" id="errorSegmentName"></span></label>
 					<input type="text" class="form-control" id="segmentName" placeholder="Enter Segment Name" required>
 				</div>
 				<input type="hidden" id="segmentId">
@@ -216,6 +221,7 @@
 		$('#segmentForm')[0].reset();
 		$('#segmentId').val('');
 		$('#modalTitle').text('Add Segment');
+		$('#errorSegmentName').text(''); // Clear error message
 	});
 
 	// Close Modal
@@ -229,10 +235,30 @@
 		$('#segmentId').val(id);
 		$('#modalTitle').text('Edit Segment');
 		$('#segmentModal').show();
+		$('#errorSegmentName').text(''); // Clear error message
+	}
+
+	// Validate form fields
+	function validateForm() {
+		var isValid = true;
+		var segmentName = $('#segmentName').val();
+
+		if (segmentName.trim() === '') {
+			$('#errorSegmentName').text('Segment name is required.');
+			isValid = false;
+		} else {
+			$('#errorSegmentName').text('');
+		}
+
+		return isValid;
 	}
 
 	// Submit Form (Add/Edit)
 	function submitSegmentForm() {
+		if (!validateForm()) {
+			return;
+		}
+
 		var segmentName = $('#segmentName').val();
 		var id = $('#segmentId').val();
 		var url = id ? '<?php echo base_url("form/segment/edit/"); ?>' + id : '<?php echo base_url("form/segment/add"); ?>';

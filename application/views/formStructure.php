@@ -115,7 +115,7 @@
 			<div class="modal-body">
 				<form id="formStructureForm">
 					<div class="form-group">
-						<label for="formName" class="required">Form Name</label>
+						<label for="formName" class="required">Form Name<span class="error-message" id="errorFormName"></span></label>
 						<select class="form-control" id="formName" name="form_name" required>
 							<option value="" disabled selected>Select Form Name</option>
 							<?php foreach ($form_names as $form_name): ?>
@@ -124,7 +124,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="segment" class="required">Segment</label>
+						<label for="segment" class="required">Segment<span class="error-message" id="errorSegment"></span></label>
 						<select class="form-control" id="segment" name="segment" required>
 							<option value="" disabled selected>Select Segment</option>
 							<?php foreach ($segments as $segment): ?>
@@ -133,12 +133,12 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="fieldName" class="required">Field Name</label>
+						<label for="fieldName" class="required">Field Name<span class="error-message" id="errorFieldName"></span></label>
 						<input type="text" class="form-control" id="fieldName" name="field_name"
 							placeholder="Enter Field Name" required>
 					</div>
 					<div class="form-group">
-						<label for="columnType" class="required">Column Type</label>
+						<label for="columnType" class="required">Column Type<span class="error-message" id="errorColumnType"></span></label>
 						<select class="form-control" id="columnType" name="column_type" required>
 							<option value="" disabled selected>Select Column Type</option>
 							<?php foreach ($column_types as $column_type): ?>
@@ -148,12 +148,12 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="length" class="required">Length</label>
+						<label for="length" class="required">Length<span class="error-message" id="errorLength"></span></label>
 						<input type="number" class="form-control" id="length" name="length" placeholder="Enter Length"
 							required>
 					</div>
 					<div class="form-group">
-						<label for="dataType" class="required">Data Type</label>
+						<label for="dataType" class="required">Data Type<span class="error-message" id="errorDataType"></span></label>
 						<select class="form-control" id="dataType" name="data_type" required>
 							<option value="" disabled selected>Select Data Type</option>
 							<?php foreach ($data_types as $data_type): ?>
@@ -162,7 +162,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="fieldType" class="required">Field Type</label>
+						<label for="fieldType" class="required">Field Type<span class="error-message" id="errorFieldType"></span></label>
 						<select class="form-control" id="fieldType" name="field_type" required>
 							<option value="" disabled selected>Select Field Type</option>
 							<?php foreach ($field_types as $field_type): ?>
@@ -191,6 +191,13 @@
 		$('#modalTitle').text('Add Form Structure');
 		$('#formStructureForm')[0].reset();
 		$('#formId').val('');
+		$('#errorFormName').text('');
+		$('#errorSegment').text('');
+		$('#errorFieldName').text('');
+		$('#errorColumnType').text('');
+		$('#errorLength').text('');
+		$('#errorDataType').text('');
+		$('#errorFieldType').text('');
 	});
 
 	function openEditModal(id, formName, segment, fieldName, columnType, length, dataType, fieldType) {
@@ -204,9 +211,91 @@
 		$('#formId').val(id);
 		$('#modalTitle').text('Edit Form Structure');
 		$('#formStructureModal').modal('show');
+		$('#errorFormName').text('');
+		$('#errorSegment').text('');
+		$('#errorFieldName').text('');
+		$('#errorColumnType').text('');
+		$('#errorLength').text('');
+		$('#errorDataType').text('');
+		$('#errorFieldType').text('');
 	}
 
+
+	function validateForm() {
+		var isValid = true;
+
+		// Validate Form Name
+		var formName = $('#formName').val();
+		if (formName.trim() === '') {
+			$('#errorFormName').text('Form name is required.');
+			isValid = false;
+		} else {
+			$('#errorFormName').text('');
+		}
+
+		// Validate Segment
+		var segment = $('#segment').val();
+		if (segment.trim() === '') {
+			$('#errorSegment').text('Segment is required.');
+			isValid = false;
+		} else {
+			$('#errorSegment').text('');
+		}
+
+		// Validate Field Name
+		var fieldName = $('#fieldName').val();
+		if (fieldName.trim() === '') {
+			$('#errorFieldName').text('Field name is required.');
+			isValid = false;
+		} else {
+			$('#errorFieldName').text('');
+		}
+
+		// Validate Column Type
+		var columnType = $('#columnType').val();
+		if (columnType.trim() === '') {
+			$('#errorColumnType').text('Column type is required.');
+			isValid = false;
+		} else {
+			$('#errorColumnType').text('');
+		}
+
+		// Validate Length
+		var length = $('#length').val();
+		if (length.trim() === '' || isNaN(length) || parseInt(length) <= 0) {
+			$('#errorLength').text('Length must be a positive number.');
+			isValid = false;
+		} else {
+			$('#errorLength').text('');
+		}
+
+		// Validate Data Type
+		var dataType = $('#dataType').val();
+		if (dataType.trim() === '') {
+			$('#errorDataType').text('Data type is required.');
+			isValid = false;
+		} else {
+			$('#errorDataType').text('');
+		}
+
+		// Validate Field Type
+		var fieldType = $('#fieldType').val();
+		if (fieldType.trim() === '') {
+			$('#errorFieldType').text('Field type is required.');
+			isValid = false;
+		} else {
+			$('#errorFieldType').text('');
+		}
+
+		return isValid;
+	}
+
+
 	function submitFormStructureForm(event) {
+
+		if (!validateForm()) {
+			return;
+		}
 		event.preventDefault();
 		var id = $('#formId').val();
 		var formName = $('#formName').val();

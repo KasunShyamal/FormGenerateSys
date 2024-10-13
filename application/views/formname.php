@@ -150,6 +150,11 @@
 			width: 95%;
 		}
 	}
+
+	.error-message {
+		color: red;
+		font-size: 12px;
+	}
 </style>
 
 <!-- Add New Button -->
@@ -200,15 +205,15 @@
 			<div class="modal-body">
 				<form id="formNameForm">
 					<div class="form-group">
-						<label for="formName">Form Name</label>
+						<label for="formName">Form Name<span class="error-message" id="errorFormName"></span></label>
 						<input type="text" class="form-control" id="formName" placeholder="Enter Form Name" required>
 					</div>
 					<div class="form-group">
-						<label for="heading">Heading</label>
+						<label for="heading">Heading<span class="error-message" id="errorHeading"></span></label>
 						<input type="text" class="form-control" id="heading" placeholder="Enter Heading" required>
 					</div>
 					<div class="form-group">
-						<label for="type">Type</label>
+						<label for="type">Type<span class="error-message" id="errorType"></span></label>
 						<select class="form-control" id="type" required>
 							<option value="">Select Type</option>
 							<option value="Type 1">Type 1</option>
@@ -237,6 +242,9 @@
 		$('#modalTitle').text('Add New Form');
 		$('#formNameForm')[0].reset();
 		$('#formId').val('');
+		$('#errorFormName').text('');
+		$('#errorHeading').text('');
+		$('#errorType').text('');
 	});
 
 	// Open Edit Modal and pre-fill the form
@@ -247,10 +255,52 @@
 		$('#formId').val(id);
 		$('#modalTitle').text('Edit Form');
 		$('#formNameModal').modal('show');
+		$('#errorFormName').text('');
+		$('#errorHeading').text('');
+		$('#errorType').text('');
 	}
+
+	function validateForm() {
+		var isValid = true;
+		var formName = $('#formName').val();
+		var heading = $('#heading').val();
+		var type = $('#type').val();
+
+		// Validate formName
+		if (formName.trim() === '') {
+			$('#errorFormName').text('Form name is required.');
+			isValid = false;
+		} else {
+			$('#errorFormName').text('');
+		}
+
+		// Validate heading
+		if (heading.trim() === '') {
+			$('#errorHeading').text('Heading is required.');
+			isValid = false;
+		} else {
+			$('#errorHeading').text('');
+		}
+
+		// Validate type
+		if (type === '') {
+			$('#errorType').text('Type is required.');
+			isValid = false;
+		} else {
+			$('#errorType').text('');
+		}
+
+		return isValid;
+	}
+
 
 	// Submit Form Name (Add/Edit)
 	function submitFormNameForm() {
+
+		if (!validateForm()) {
+			return;
+		}
+
 		var formName = $('#formName').val();
 		var heading = $('#heading').val();
 		var type = $('#type').val();
