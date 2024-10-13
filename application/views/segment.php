@@ -149,7 +149,7 @@
 		}
 	}
 </style>
-<button type="button" class="btn btn-primary" id="addNew" style="width: 150px; height: 80px; margin: 0 20px">
+<button type="button" class="btn btn-primary" id="addNew" >
 	Add New
 </button>
 

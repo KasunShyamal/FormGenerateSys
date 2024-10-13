@@ -16,7 +16,7 @@ class FormNameController extends CI_Controller
 	{
 		$res = $this->FormNameModel->getAllData();
 		$data['records'] = $res;
-		$data1['content'] = $this->load->view('formNameView', $data, true);
+		$data1['content'] = $this->load->view('formname', $data, true);
 		$this->load->view('home_page', $data1);
 	}
 
