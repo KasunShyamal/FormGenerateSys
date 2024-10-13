@@ -31,6 +31,17 @@ class FormNameController extends CI_Controller
 		return $res;
 	}
 
+
+	public function edit_form_name($id)
+	{
+		$data = array(
+			'form_name' => $this->input->post('form_name'),
+			'heading' => $this->input->post('heading'),
+			'type' => $this->input->post('type')
+		);
+		$res = $this->FormNameModel->update_form_name($id, $data);
+		return $res;
+	}
 }
 
 ?>

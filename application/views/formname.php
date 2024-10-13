@@ -149,9 +149,8 @@
 	}
 </style>
 
-<!-- Add New and Edit Buttons -->
+<!-- Add New Button -->
 <button type="button" class="btn btn-primary" id="addNew">Add New</button>
-<button type="button" class="btn btn-primary" id="editNew">Edit</button>
 
 <!-- Table displaying form data -->
 <table>
@@ -160,6 +159,7 @@
 		<th>Form Name</th>
 		<th>Heading</th>
 		<th>Type</th>
+		<th>Action</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -169,11 +169,14 @@
 				<td><?= $record->form_name ?></td>
 				<td><?= $record->heading ?></td>
 				<td><?= $record->type ?></td>
+				<td>
+					<button class="btn btn-primary" onclick="openEditModal('<?= $record->id ?>', '<?= $record->form_name ?>', '<?= $record->heading ?>', '<?= $record->type ?>')">Edit</button>
+				</td>
 			</tr>
 		<?php } ?>
 	<?php else: ?>
 		<tr>
-			<td colspan="3">No records found</td>
+			<td colspan="4">No records found</td>
 		</tr>
 	<?php endif; ?>
 	</tbody>
@@ -184,7 +187,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Form Name</h5>
+				<h5 class="modal-title" id="modalTitle">Form Name</h5>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
@@ -207,6 +210,7 @@
 							<option value="Type 4">Type 4</option>
 						</select>
 					</div>
+					<input type="hidden" id="formId">
 					<button type="button" class="btn btn-primary" onclick="submitFormNameForm()">Submit</button>
 				</form>
 			</div>
@@ -223,21 +227,36 @@
 	// Add New Modal Display
 	$('#addNew').on('click', function () {
 		$('#formNameModal').modal('show');
+		$('#modalTitle').text('Add New Form');
+		$('#formNameForm')[0].reset();
+		$('#formId').val('');
 	});
 
-	// Submit Form Name
+	// Open Edit Modal and pre-fill the form
+	function openEditModal(id, formName, heading, type) {
+		$('#formName').val(formName);
+		$('#heading').val(heading);
+		$('#type').val(type);
+		$('#formId').val(id);
+		$('#modalTitle').text('Edit Form');
+		$('#formNameModal').modal('show');
+	}
+
+	// Submit Form Name (Add/Edit)
 	function submitFormNameForm() {
 		var formName = $('#formName').val();
 		var heading = $('#heading').val();
 		var type = $('#type').val();
+		var id = $('#formId').val();
 
+		let url = id ? '<?= base_url('form/name/edit/') ?>' + id : '<?= base_url('form/name/add') ?>';
 		$.ajax({
-			url: '<?= base_url('form/name/add') ?>',
+			url: url,
 			type: 'POST',
 			data: { form_name: formName, heading: heading, type: type },
 			success: function (response) {
-				Swal.fire('Form Name added successfully!');
-				$('#formNameModal').modal('hide')
+				Swal.fire(id ? 'Form updated successfully!' : 'Form added successfully!');
+				$('#formNameModal').modal('hide');
 				$('#formNameForm')[0].reset();
 				refreshFormTable();
 			},
@@ -258,11 +277,8 @@
 				tempDiv.innerHTML = data;
 				var newTbody = tempDiv.querySelector('tbody');
 				if (newTbody) {
-					document.querySelector('table tbody').innerHTML = newTbody.innerHTML;
+					document.querySelector('tbody').innerHTML = newTbody.innerHTML;
 				}
-			},
-			error: function (error) {
-				Swal.fire('Failed to load data!', error);
 			}
 		});
 	}

@@ -1,4 +1,5 @@
 <style>
+	/* Existing CSS */
 	body {
 		font-family: Arial, Helvetica, sans-serif;
 		background-color: #f4f4f9;
@@ -149,111 +150,120 @@
 		}
 	}
 </style>
-<button type="button" class="btn btn-primary" id="addNew" >
-	Add New
-</button>
 
+<!-- Add New Button -->
+<button type="button" class="btn btn-primary" id="addNew">Add New</button>
+
+<!-- Segment Table -->
 <table>
 	<thead>
-		<tr>
-			<th>Segment Name</th>
-		</tr>
+	<tr>
+		<th>Segment Name</th>
+		<th>Action</th>
+	</tr>
 	</thead>
 	<tbody>
-		<?php if (!empty($segments)): ?>
-			<?php foreach ($segments as $segment) { ?>
-				<tr>
-					<td><?php echo $segment->seg_name ?></td>
-				</tr>
-			<?php } ?>
-		<?php else: ?>
+	<?php if (!empty($segments)): ?>
+		<?php foreach ($segments as $segment) { ?>
 			<tr>
-				<td colspan="3">No records found</td>
+				<td><?php echo $segment->seg_name ?></td>
+				<td>
+					<button class="btn btn-primary" onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
+				</td>
 			</tr>
-		<?php endif; ?>
+		<?php } ?>
+	<?php else: ?>
+		<tr>
+			<td colspan="3">No records found</td>
+		</tr>
+	<?php endif; ?>
 	</tbody>
 </table>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- Modal structure -->
-<div class="modal fade" id="segmentModal" tabindex="-1" role="dialog" aria-labelledby="segmentModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Segment</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form id="segmentForm">
-					<div class="form-group">
-						<label for="segmentName">Segment Name</label>
-						<input type="text" class="form-control" id="segmentName" placeholder="Enter Segment Name"
-							required>
-					</div>
-					<button type="button" class="btn btn-primary" onclick="submitSegmentForm()">Submit</button>
-				</form>
-			</div>
+<!-- Modal for Add/Edit Segment -->
+<div class="modal" id="segmentModal">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="modalTitle">Add Segment</h5>
+			<span class="close" onclick="closeModal()">&times;</span>
+		</div>
+		<div class="modal-body">
+			<form id="segmentForm">
+				<div class="form-group">
+					<label for="segmentName">Segment Name</label>
+					<input type="text" class="form-control" id="segmentName" placeholder="Enter Segment Name" required>
+				</div>
+				<input type="hidden" id="segmentId">
+				<button type="button" class="btn btn-primary" onclick="submitSegmentForm()">Submit</button>
+			</form>
 		</div>
 	</div>
 </div>
 
-<!-- jQuery function to show modal -->
+<!-- jQuery, Bootstrap, and SweetAlert2 for Alerts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-	var modal = document.getElementById("segmentModal");
-	var btn = document.getElementById("addNew");
-	var span = document.getElementsByClassName("close")[0];
-	btn.onclick = function () {
-		modal.style.display = "block";
-	}
-	span.onclick = function () {
-		modal.style.display = "none";
-	}
-	window.onclick = function (event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
+	// Open Add Modal
+	$('#addNew').on('click', function () {
+		$('#segmentModal').show();
+		$('#segmentForm')[0].reset();
+		$('#segmentId').val('');
+		$('#modalTitle').text('Add Segment');
+	});
+
+	// Close Modal
+	function closeModal() {
+		$('#segmentModal').hide();
 	}
 
-	// Submit Form
+	// Open Edit Modal
+	function openEditModal(id, seg_name) {
+		$('#segmentName').val(seg_name);
+		$('#segmentId').val(id);
+		$('#modalTitle').text('Edit Segment');
+		$('#segmentModal').show();
+	}
+
+	// Submit Form (Add/Edit)
 	function submitSegmentForm() {
-		var segmentName = document.getElementById('segmentName').value;
+		var segmentName = $('#segmentName').val();
+		var id = $('#segmentId').val();
+		var url = id ? '<?php echo base_url("form/segment/edit/"); ?>' + id : '<?php echo base_url("form/segment/add"); ?>';
+
 		$.ajax({
-			url: '<?= base_url('form/segment/add') ?>',
+			url: url,
 			type: 'POST',
 			data: { seg_name: segmentName },
 			success: function (response) {
-				Swal.fire('Segment added successfully!');
-				modal.style.display = "none";
+				Swal.fire('Success', 'Segment saved successfully!', 'success');
+				$('#segmentModal').hide();
 				$('#segmentForm')[0].reset();
 				refreshSegmentTable();
 			},
 			error: function (error) {
-				console.error(error);
-				Swal.fire('Error occurred while adding!');
+				Swal.fire('Error', 'An error occurred while saving the segment.', 'error');
 			}
 		});
 	}
 
+	// Refresh Segment Table after Add/Edit
 	function refreshSegmentTable() {
 		$.ajax({
-			url: '<?= base_url('form/segment') ?>',
+			url: '<?php echo base_url("form/segment"); ?>',
 			type: 'GET',
 			success: function (data) {
 				var tempDiv = document.createElement('div');
 				tempDiv.innerHTML = data;
 				var newTbody = tempDiv.querySelector('tbody');
 				if (newTbody) {
-					document.querySelector('table tbody').innerHTML = newTbody.innerHTML;
+					$('table tbody').html(newTbody.innerHTML);
 				}
 			},
 			error: function (error) {
-				Swal.fire('Failed to load data!', error);
+				Swal.fire('Error', 'Failed to refresh the segment table.', 'error');
 			}
 		});
 	}

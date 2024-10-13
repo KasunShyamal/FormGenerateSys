@@ -27,6 +27,12 @@ class FormNameModel extends CI_Model
 		 return $query->result();
 	}
 
+	public function update_form_name($id, $data)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update('tbl_form_name', $data);
+	}
+
 }
 
 ?>
