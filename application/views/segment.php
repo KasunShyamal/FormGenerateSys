@@ -242,7 +242,7 @@
 			type: 'POST',
 			data: { seg_name: segmentName },
 			success: function (response) {
-				Swal.fire('Success', 'Segment saved successfully!', 'success');
+				Swal.fire('Success', id ? 'Segment updated successfully!' : 'Segment added successfully!', 'success');
 				$('#segmentModal').hide();
 				$('#segmentForm')[0].reset();
 				refreshSegmentTable();
@@ -267,7 +267,7 @@
 				}
 			},
 			error: function (error) {
-				Swal.fire('Error', 'Failed to refresh the segment table.', 'error');
+				Swal.fire('Error', 'Failed to get segments.', 'error');
 			}
 		});
 	}

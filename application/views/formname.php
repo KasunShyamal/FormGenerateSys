@@ -262,14 +262,14 @@
 			type: 'POST',
 			data: { form_name: formName, heading: heading, type: type },
 			success: function (response) {
-				Swal.fire(id ? 'Form updated successfully!' : 'Form added successfully!');
+				Swal.fire('Success', id ? 'Form updated successfully!' : 'Form added successfully!', 'success');
 				$('#formNameModal').modal('hide');
 				$('#formNameForm')[0].reset();
 				refreshFormTable();
 			},
 			error: function (error) {
 				console.error(error);
-				Swal.fire('An error occurred!');
+				Swal.fire('Error', 'An error occurred while saving the form name.', 'error');
 			}
 		});
 	}
@@ -286,6 +286,9 @@
 				if (newTbody) {
 					document.querySelector('tbody').innerHTML = newTbody.innerHTML;
 				}
+			},
+			error: function (error) {
+				Swal.fire('Error', 'Failed to get form names.', 'error');
 			}
 		});
 	}

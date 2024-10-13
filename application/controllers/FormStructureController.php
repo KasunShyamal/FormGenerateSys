@@ -14,12 +14,14 @@ class FormStructureController extends CI_Controller
 
 	public function index()
 	{
+		$form_structures = $this->getFormStructures();
 		$form_names = $this->getFormNames();
 		$segments = $this->getSegments();
 		$column_types = $this->getColumnTypes();
 		$data_types = $this->getDataTypes();
 		$field_types = $this->getFieldTypes();
 		$data = [
+			'form_structures' => $form_structures,
 			'form_names' => $form_names,
 			'segments' => $segments,
 			'column_types' => $column_types,
@@ -28,6 +30,12 @@ class FormStructureController extends CI_Controller
 		];
 		$data1['content'] = $this->load->view('formStructure', $data, true);
 		$this->load->view('home_page', $data1);
+	}
+
+	public function getFormStructures()
+	{
+		$form_structures = $this->FormStructureModel->get_form_structures();
+		return $form_structures;
 	}
 
 	public function getFormNames()
@@ -65,7 +73,7 @@ class FormStructureController extends CI_Controller
 		$data = array(
 			'form_name_id' => $this->input->post('form_name'),
 			'seg_id' => $this->input->post('segment'),
-			'field_name' => str_replace(' ',' ',$this->input->post('field_name')),
+			'field_name' => str_replace(' ', ' ', $this->input->post('field_name')),
 			'colomn_type_id' => $this->input->post('column_type'),
 			'length' => $this->input->post('length'),
 			'data_type_id' => $this->input->post('data_type'),
@@ -75,23 +83,20 @@ class FormStructureController extends CI_Controller
 		return $res;
 	}
 
-
 	public function edit_form_structure($id)
 	{
 		$data = array(
 			'form_name_id' => $this->input->post('form_name'),
 			'seg_id' => $this->input->post('segment'),
-			'field_name' => str_replace(' ',' ',$this->input->post('field_name')),
+			'field_name' => str_replace(' ', ' ', $this->input->post('field_name')),
 			'colomn_type_id' => $this->input->post('column_type'),
 			'length' => $this->input->post('length'),
 			'data_type_id' => $this->input->post('data_type'),
 			'field_type_id' => $this->input->post('field_type')
 		);
-		$res = $this->FormStructureModel->update_form_structure($id,$data);
+		$res = $this->FormStructureModel->update_form_structure($id, $data);
 		return $res;
 	}
-
-
 
 }
 
