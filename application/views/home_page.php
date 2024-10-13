@@ -48,37 +48,15 @@
 <body>
 
 	<div class="sidebar">
-		<a href="HomePage?page=home">Home</a>
-		<a href="HomePage?page=segment">Segment</a>
-		<a href="HomePage?page=form_name">Form Name</a>
+	<a href="<?= base_url('home'); ?>">Home</a>
+        <a href="<?= base_url('segment'); ?>">Segment</a>
+        <a href="<?= base_url('form_name'); ?>">Form Name</a>
+        <a href="<?= base_url('form/generate'); ?>">Form Generate</a>
 	</div>
 
 	<div class="content">
-		<?php
-		// Check if 'page' is set in the query string
-		if (isset($_GET['page'])) {
-			$page = $_GET['page'];
-
-			// Load the corresponding page content
-			switch ($page) {
-				case 'home':
-					include 'welcome_message.php';
-					break;
-				case 'segment':
-					include 'segment_view.php';
-					break;
-				case 'form_name':
-					include 'formNameView.php';
-					break;
-				default:
-					echo "<h1>404 - Page not found</h1>";
-					break;
-			}
-		} else {
-			// Default content if no page is selected
-			include 'welcome_message.php';
-		}
-		?>
+		 <!-- Load dynamic content here -->
+		 <?php if (isset($content)) echo $content; ?>
 	</div>
 
 </body>

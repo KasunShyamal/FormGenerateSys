@@ -18,9 +18,11 @@ class FormGenerationController extends CI_Controller {
     {
         $form_structure = $this->getAllStructureData();
         $data['form_structure'] = $form_structure; 
+
+        $data1['content'] = $this->load->view('formGenarationView', $data, true);
         
         // Pass the data to the view
-        $this->load->view('formGenarationView', $data);
+        $this->load->view('home_page', $data1);
     }
 
     public function fetch_structure($id){
