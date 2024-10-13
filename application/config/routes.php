@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'FormGenerationController';
+$route['default_controller'] = 'HomePage';
 $route['form/load'] = 'LoadFileController';
 $route['form/get_structure/(:num)'] = 'FormGenerationController/fetch_structure/$1';
 $route['form/add'] = 'FormGenerationController/add';
