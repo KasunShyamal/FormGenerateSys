@@ -60,6 +60,12 @@ class FormStructureModel extends CI_Model
 		}
 	}
 
+	public function update_form_structure($id, $data)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update('tbl_form_structure', $data);
+	}
+
 }
 
 ?>
