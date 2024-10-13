@@ -20,6 +20,13 @@ class FormNameModel extends CI_Model
 		}
 	}
 
+	public function getAllData(){
+		 $this->db->select('*');
+		 $this->db->from('tbl_form_name');
+		 $query = $this->db->get();
+		 return $query->result();
+	}
+
 }
 
 ?>

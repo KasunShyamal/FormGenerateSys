@@ -12,6 +12,13 @@ class FormNameController extends CI_Controller
 		$this->load->library('form_validation');
 	}
 
+
+
+	function index(){
+		$res = $this->FormNameModel->getAllData();
+		$data['records'] = $res;  // Pass data to the view
+		$this->load->view('formNameView', $data);
+	}
 	public function add_form_name()
 	{
 		$data = array(

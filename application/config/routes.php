@@ -54,6 +54,7 @@ $route['form/load'] = 'LoadFileController';
 $route['form/get_structure/(:num)'] = 'FormGenerationController/fetch_structure/$1';
 $route['form/add'] = 'FormGenerationController/add';
 $route['SegmentController/add_segment'] = 'SegmentController/add_segment';
+$route['formName/add_form_name'] = 'FormNameController';
 $route['FormNameController/add_form_name'] = 'FormNameController/add_form_name';
 $route['FormStructure'] = 'FormStructureController';
 $route['FormStructureController/add_form_structure'] = 'FormStructureController/add_form_structure';
