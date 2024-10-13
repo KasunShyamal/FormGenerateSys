@@ -32,28 +32,38 @@
 		color: red;
 	}
 
-	.btn-primary {
-		width: 100%;
-		margin-top: 1rem;
-		padding: 0.5rem;
-	}
-
 	.form-control:focus {
 		border-color: #80bdff;
 		box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 	}
 
-	@media (min-width: 768px) {
-		.container {
-			max-width: 500px;
+	.btn-primary {
+		background-color: #007bff;
+		border: none;
+		padding: 10px 20px;
+		font-size: 16px;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.btn-primary:hover {
+		background-color: #0056b3;
+	}
+
+	@media screen and (max-width: 768px) {
+		.modal-content {
+			width: 90%;
+		}
+
+		table {
+			width: 95%;
 		}
 	}
 </style>
 
-<!-- Add New Button -->
 <button type="button" class="btn btn-primary" id="addNew">Add New</button>
 
-<!-- Table displaying form data -->
 <table>
 	<thead>
 		<tr>
@@ -96,74 +106,77 @@
 </table>
 
 <div class="modal fade container mt-5 mb-5" id="formStructureModal" tabindex="-1" role="dialog">
-	<div class="card">
-		<div class="card-header">
-			<h5 class="modal-title" id="modalTitle">Add Form Structure</h5>
-		</div>
-		<div class="card-body">
-			<form id="formStructureForm">
-				<div class="form-group">
-					<label for="formName" class="required">Form Name</label>
-					<select class="form-control" id="formName" name="form_name" required>
-						<option value="" disabled selected>Select Form Name</option>
-						<?php foreach ($form_names as $form_name): ?>
-							<option value="<?php echo $form_name->id; ?>"><?php echo $form_name->form_name; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="segment" class="required">Segment</label>
-					<select class="form-control" id="segment" name="segment" required>
-						<option value="" disabled selected>Select Segment</option>
-						<?php foreach ($segments as $segment): ?>
-							<option value="<?php echo $segment->id; ?>"><?php echo $segment->seg_name; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="fieldName" class="required">Field Name</label>
-					<input type="text" class="form-control" id="fieldName" name="field_name"
-						placeholder="Enter Field Name" required>
-				</div>
-				<div class="form-group">
-					<label for="columnType" class="required">Column Type</label>
-					<select class="form-control" id="columnType" name="column_type" required>
-						<option value="" disabled selected>Select Column Type</option>
-						<?php foreach ($column_types as $column_type): ?>
-							<option value="<?php echo $column_type->id; ?>"><?php echo $column_type->data_type; ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="length" class="required">Length</label>
-					<input type="number" class="form-control" id="length" name="length" placeholder="Enter Length"
-						required>
-				</div>
-				<div class="form-group">
-					<label for="dataType" class="required">Data Type</label>
-					<select class="form-control" id="dataType" name="data_type" required>
-						<option value="" disabled selected>Select Data Type</option>
-						<?php foreach ($data_types as $data_type): ?>
-							<option value="<?php echo $data_type->id; ?>"><?php echo $data_type->type; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="fieldType" class="required">Field Type</label>
-					<select class="form-control" id="fieldType" name="field_type" required>
-						<option value="" disabled selected>Select Field Type</option>
-						<?php foreach ($field_types as $field_type): ?>
-							<option value="<?php echo $field_type->id; ?>"><?php echo $field_type->field_type; ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-				<input type="hidden" id="formId">
-				<button type="submit" class="btn btn-primary" onclick="submitFormStructureForm()">
-					<i class="fas fa-save mr-2"></i>Save Form Structure
-				</button>
-			</form>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitle">Add Form Structure</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form id="formStructureForm">
+					<div class="form-group">
+						<label for="formName" class="required">Form Name</label>
+						<select class="form-control" id="formName" name="form_name" required>
+							<option value="" disabled selected>Select Form Name</option>
+							<?php foreach ($form_names as $form_name): ?>
+								<option value="<?php echo $form_name->id; ?>"><?php echo $form_name->form_name; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="segment" class="required">Segment</label>
+						<select class="form-control" id="segment" name="segment" required>
+							<option value="" disabled selected>Select Segment</option>
+							<?php foreach ($segments as $segment): ?>
+								<option value="<?php echo $segment->id; ?>"><?php echo $segment->seg_name; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="fieldName" class="required">Field Name</label>
+						<input type="text" class="form-control" id="fieldName" name="field_name"
+							placeholder="Enter Field Name" required>
+					</div>
+					<div class="form-group">
+						<label for="columnType" class="required">Column Type</label>
+						<select class="form-control" id="columnType" name="column_type" required>
+							<option value="" disabled selected>Select Column Type</option>
+							<?php foreach ($column_types as $column_type): ?>
+								<option value="<?php echo $column_type->id; ?>"><?php echo $column_type->data_type; ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="length" class="required">Length</label>
+						<input type="number" class="form-control" id="length" name="length" placeholder="Enter Length"
+							required>
+					</div>
+					<div class="form-group">
+						<label for="dataType" class="required">Data Type</label>
+						<select class="form-control" id="dataType" name="data_type" required>
+							<option value="" disabled selected>Select Data Type</option>
+							<?php foreach ($data_types as $data_type): ?>
+								<option value="<?php echo $data_type->id; ?>"><?php echo $data_type->type; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="fieldType" class="required">Field Type</label>
+						<select class="form-control" id="fieldType" name="field_type" required>
+							<option value="" disabled selected>Select Field Type</option>
+							<?php foreach ($field_types as $field_type): ?>
+								<option value="<?php echo $field_type->id; ?>"><?php echo $field_type->field_type; ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<input type="hidden" id="formId">
+					<button type="submit" class="btn btn-primary" onclick="submitFormStructureForm()">
+						Save Form Structure
+					</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
@@ -193,7 +206,8 @@
 		$('#formStructureModal').modal('show');
 	}
 
-	function submitFormStructureForm() {
+	function submitFormStructureForm(event) {
+		event.preventDefault();
 		var id = $('#formId').val();
 		var formName = $('#formName').val();
 		var segment = $('#segment').val();
@@ -226,6 +240,8 @@
 			}
 		});
 	}
+
+	$('#formStructureForm').on('submit', submitFormStructureForm);
 
 	function refreshFormTable() {
 		$.ajax({
