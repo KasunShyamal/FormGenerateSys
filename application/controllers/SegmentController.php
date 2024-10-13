@@ -18,7 +18,7 @@ class SegmentController extends CI_Controller
 		$data = [
 			'segments' => $segments
 		];
-		$data1['content'] = $this->load->view('segment_view', $data, true);
+		$data1['content'] = $this->load->view('segment', $data, true);
         $this->load->view('home_page', $data1);
 	}
 
