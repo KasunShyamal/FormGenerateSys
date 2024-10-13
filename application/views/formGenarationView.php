@@ -99,9 +99,11 @@
             </thead>
             <tbody>
                 <?php if (!empty($form_structure)) : ?>
+                    <?php $rowCount = 1; // Initialize counter ?>
                     <?php foreach ($form_structure as $structure) : ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($structure->id); ?></td>
+                         
+                            <td><?php echo $rowCount++; ?></td> 
                             <td><?php echo htmlspecialchars($structure->form_name); ?></td>
                             <td><?php echo htmlspecialchars($structure->heading); ?></td>
                             <td>
