@@ -1,4 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+
 <style>
 	.card {
 		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
@@ -62,48 +64,56 @@
 	}
 </style>
 
-<button type="button" class="btn btn-primary" id="addNew">Add New</button>
-
-<table>
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Form Name</th>
-			<th>Segment</th>
-			<th>Field Name</th>
-			<th>Column Type</th>
-			<th>Length</th>
-			<th>Date Type</th>
-			<th>Field Type</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php if (!empty($form_structures)): ?>
-			<?php $count = 1; ?>
-			<?php foreach ($form_structures as $form_structure) { ?>
-				<tr>
-					<td><?php echo $count++; ?></td>
-					<td><?php echo $form_structure->form_name ?></td>
-					<td><?php echo $form_structure->seg_name ?></td>
-					<td><?php echo $form_structure->field_name ?></td>
-					<td><?php echo $form_structure->data_type ?></td>
-					<td><?php echo $form_structure->length ?></td>
-					<td><?php echo $form_structure->type ?></td>
-					<td><?php echo $form_structure->field_type ?></td>
-					<td>
-						<button class="btn btn-primary"
-							onclick="openEditModal('<?= $form_structure->id ?>', '<?= $form_structure->form_name_id ?>', '<?= $form_structure->seg_id ?>', '<?= $form_structure->field_name ?>', '<?= $form_structure->colomn_type_id ?>', '<?= $form_structure->length ?>', '<?= $form_structure->data_type_id ?>', '<?= $form_structure->field_type_id ?>')">Edit</button>
-					</td>
-				</tr>
-			<?php } ?>
-		<?php else: ?>
-			<tr>
-				<td colspan="4">No records found</td>
-			</tr>
-		<?php endif; ?>
-	</tbody>
-</table>
+<div class="container mx-auto px-4 py-8">
+  <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-4" id="addNew">
+    Add New
+  </button>
+  <h1 class="text-3xl font-semibold text-center text-white mb-8">Form Structure</h1>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
+      <thead class="bg-blue-600 text-white uppercase text-sm">
+        <tr>
+          <th class="py-3 px-6">ID</th>
+          <th class="py-3 px-6">Form Name</th>
+          <th class="py-3 px-6">Segment</th>
+          <th class="py-3 px-6">Field Name</th>
+          <th class="py-3 px-6">Column Type</th>
+          <th class="py-3 px-6">Length</th>
+          <th class="py-3 px-6">Date Type</th>
+          <th class="py-3 px-6">Field Type</th>
+          <th class="py-3 px-6">Action</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-50 text-sm bg-gray-700">
+        <?php if (!empty($form_structures)): ?>
+          <?php $count = 1; ?>
+          <?php foreach ($form_structures as $form_structure) { ?>
+            <tr class="border-b border-gray-500 hover:bg-gray-600">
+              <td class="py-4 px-6"><?php echo $count++; ?></td>
+              <td class="py-4 px-6"><?php echo $form_structure->form_name ?></td>
+              <td class="py-4 px-6"><?php echo $form_structure->seg_name ?></td>
+              <td class="py-4 px-6"><?php echo $form_structure->field_name ?></td>
+              <td class="py-4 px-6"><?php echo $form_structure->data_type ?></td>
+              <td class="py-4 px-6"><?php echo $form_structure->length ?></td>
+              <td class="py-4 px-6"><?php echo $form_structure->type ?></td>
+              <td class="py-4 px-6"><?php echo $form_structure->field_type ?></td>
+              <td class="py-4 px-6">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded" 
+                  onclick="openEditModal('<?= $form_structure->id ?>', '<?= $form_structure->form_name_id ?>', '<?= $form_structure->seg_id ?>', '<?= $form_structure->field_name ?>', '<?= $form_structure->colomn_type_id ?>', '<?= $form_structure->length ?>', '<?= $form_structure->data_type_id ?>', '<?= $form_structure->field_type_id ?>')">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          <?php } ?>
+        <?php else: ?> 
+          <tr>
+            <td colspan="9" class="py-4 px-6 text-center">No records found</td>
+          </tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <div class="modal fade container mt-5 mb-5" id="formStructureModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">

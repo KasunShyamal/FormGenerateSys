@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'HomePage';
+$route['login'] = 'Login';
 $route['home'] = 'welcome_message.php';
 $route['form/segment'] = 'SegmentController';
 $route['form/segment/add'] = 'SegmentController/add_segment';

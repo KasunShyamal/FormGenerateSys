@@ -1,213 +1,92 @@
-<style>
-	/* Existing CSS */
-	body {
-		font-family: Arial, Helvetica, sans-serif;
-		background-color: #f4f4f9;
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 
-	#addNew {
-		width: 150px;
-		height: 50px;
-		background-color: #007bff;
-		color: white;
-		border: none;
-		border-radius: 5px;
-		font-size: 16px;
-		cursor: pointer;
-		transition: background-color 0.3s ease;
-		margin: 20px;
-	}
-
-	#addNew:hover {
-		background-color: #0056b3;
-	}
-
-	table {
-		width: 80%;
-		margin: 20px auto;
-		border-collapse: collapse;
-	}
-
-	thead th {
-		background-color: #007bff;
-		color: white;
-		padding: 10px;
-		text-align: left;
-		font-size: 16px;
-	}
-
-	tbody td {
-		border: 1px solid #dddddd;
-		padding: 10px;
-		text-align: left;
-		font-size: 14px;
-	}
-
-	tbody tr:nth-child(even) {
-		background-color: #f2f2f2;
-	}
-
-	tbody tr:hover {
-		background-color: #e2e6ea;
-	}
-
-	.modal {
-		display: none;
-		position: fixed;
-		z-index: 1;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		overflow: auto;
-		background-color: rgba(0, 0, 0, 0.5);
-	}
-
-	.modal-content {
-		background-color: #fefefe;
-		margin: auto;
-		padding: 20px;
-		border: 1px solid #888;
-		width: 40%;
-		border-radius: 10px;
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-	}
-
-	.modal-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		border-bottom: 1px solid #e9ecef;
-		padding-bottom: 10px;
-	}
-
-	.modal-title {
-		font-size: 20px;
-		font-weight: bold;
-	}
-
-	.close {
-		color: #aaaaaa;
-		font-size: 28px;
-		font-weight: bold;
-		cursor: pointer;
-	}
-
-	.close:hover,
-	.close:focus {
-		color: #000;
-	}
-
-	.modal-body {
-		padding-top: 10px;
-	}
-
-	.form-group label {
-		font-size: 14px;
-		color: #333;
-	}
-
-	.form-control {
-		width: 100%;
-		padding: 10px;
-		margin-top: 5px;
-		margin-bottom: 15px;
-		border-radius: 5px;
-		border: 1px solid #ddd;
-		font-size: 14px;
-	}
-
-	.form-control:focus {
-		border-color: #007bff;
-		outline: none;
-		box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-	}
-
-	.error-message {
-		color: red;
-		font-size: 12px;
-	}
-
-	.btn-primary {
-		background-color: #007bff;
-		border: none;
-		padding: 10px 20px;
-		font-size: 16px;
-		border-radius: 5px;
-		cursor: pointer;
-		transition: background-color 0.3s ease;
-	}
-
-	.btn-primary:hover {
-		background-color: #0056b3;
-	}
-
-	@media screen and (max-width: 768px) {
-		.modal-content {
-			width: 90%;
-		}
-
-		table {
-			width: 95%;
-		}
-	}
-</style>
 
 <!-- Add New Button -->
-<button type="button" class="btn btn-primary" id="addNew">Add New</button>
+<button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition duration-300 ease-in-out mb-6" id="addNew">
+  Add New
+</button>
 
 <!-- Segment Table -->
-<table>
-	<thead>
-	<tr>
-		<th>ID</th>
-		<th>Segment Name</th>
-		<th>Action</th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php if (!empty($segments)): ?>
-		<?php $count = 1; ?>
-		<?php foreach ($segments as $segment) { ?>
-			<tr>
-				<td><?php echo $count++; ?></td>
-				<td><?php echo $segment->seg_name ?></td>
-				<td>
-					<button class="btn btn-primary"
-							onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
-				</td>
-			</tr>
-		<?php } ?>
-	<?php else: ?>
-		<tr>
-			<td colspan="3">No records found</td>
-		</tr>
-	<?php endif; ?>
-	</tbody>
-</table>
+<h1 class="text-3xl font-semibold text-center text-white mb-8">Segment Table</h2>
+<div class="overflow-x-auto bg-gray-700 rounded-lg shadow-md">
+  <table class="w-full table-auto">
+    <thead class="bg-blue-500 text-white">
+      <tr>
+        <th class="py-2 px-4">ID</th>
+        <th class="py-2 px-4">Segment Name</th>
+        <th class="py-2 px-4">Action</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-50 ">
+      <?php if (!empty($segments)): ?>
+        <?php $count = 1; ?>
+        <?php foreach ($segments as $segment) { ?>
+          <tr class="border-b border-gray-500 hover:bg-gray-600">
+            <td class="py-2 px-4"><?php echo $count++; ?></td>
+            <td class="py-2 px-4"><?php echo $segment->seg_name ?></td>
+            <td class="py-2 px-4">
+              <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded transition duration-300 ease-in-out" onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
+            </td>
+          </tr>
+        <?php } ?>
+      <?php else: ?>
+        <tr>
+          <td colspan="3" class="py-2 px-4 text-center">No records found</td>
+        </tr>
+      <?php endif; ?>
+    </tbody>
+  </table>
+</div>
 
 <!-- Modal for Add/Edit Segment -->
-<div class="modal" id="segmentModal">
-	<div class="modal-content">
-		<div class="modal-header">
-			<h5 class="modal-title" id="modalTitle">Add Segment</h5>
-			<span class="close" onclick="closeModal()">&times;</span>
-		</div>
-		<div class="modal-body">
-			<form id="segmentForm">
-				<div class="form-group">
-					<label for="segmentName">Segment Name <span class="error-message" id="errorSegmentName"></span></label>
-					<input type="text" class="form-control" id="segmentName" placeholder="Enter Segment Name" required>
-				</div>
-				<input type="hidden" id="segmentId">
-				<button type="button" class="btn btn-primary" onclick="submitSegmentForm()">Submit</button>
-			</form>
-		</div>
-	</div>
+<div class="fixed z-10 inset-0 overflow-y-auto" id="segmentModal" style="display: none;">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modalTitle">
+              Add Segment
+            </h3>
+            <div class="mt-2">
+              <form id="segmentForm">
+                <div class="mb-4">
+                  <label for="segmentName" class="block text-gray-700 font-semibold mb-2">
+                    Segment Name <span class="text-red-500">*</span>
+                  </label>
+                  <input type="text" id="segmentName" name="segmentName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter Segment Name" required>
+                  <span class="text-red-500 text-sm" id="errorSegmentName"></span>
+                </div>
+                <input type="hidden" id="segmentId">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" onclick="submitSegmentForm()">
+          Submit
+        </button>
+        <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="closeModal()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- jQuery and SweetAlert2 for Alerts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  // Existing JavaScript code remains unchanged
+  // ...
+</script>
 
 <!-- jQuery, Bootstrap, and SweetAlert2 for Alerts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

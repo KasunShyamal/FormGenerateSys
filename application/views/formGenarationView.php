@@ -4,143 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Generator</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Tailwind CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: lightgray;
-            color: #333;
+        .bg-dark-purple { background-color: #1e1e2d; }
+        .bg-darker-purple { background-color: #151521; }
+        .text-light-purple { color: #a2a5b9; }
+        .border-dark-purple { border-color: #2f2f40; }
+        .focus-visible:focus-visible {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #4a4a4a;
-        }
-        .no-forms {
-            text-align: center;
-            padding: 20px;
-            font-style: italic;
-            color: #888;
-        }
-        .table-container {
-            margin: 20px auto;
-            padding: 15px;
-            max-width: 100%;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            background-color: #eef2f7;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eef2f7;
-        }
-
-        thead {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-            text-align: left;
-        }
-
-        thead th {
-            padding: 12px;
-            font-size: 16px;
-            text-transform: uppercase;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tbody tr:hover {
-            background-color: #d1f5d3;
-            cursor: pointer;
-        }
-
-        tbody td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            font-size: 15px;
-            color: #333;
-        }
-
-        /* Add nice borders */
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        /* Responsive table - scroll on small screens */
-        @media screen and (max-width: 768px) {
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-        }
-
     </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1>Form Generation</h1>
+<body class="bg-dark-purple text-light-purple">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-semibold text-center text-white mb-8">Form Generation</h1>
 
-        <!-- Table to display the form structure -->
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Form Name</th>
-                    <th>Form Heading</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($form_structure)) : ?>
-                    <?php $rowCount = 1; // Initialize counter ?>
-                    <?php foreach ($form_structure as $structure) : ?>
-                        <tr>
-                         
-                            <td><?php echo $rowCount++; ?></td> 
-                            <td><?php echo htmlspecialchars($structure->form_name); ?></td>
-                            <td><?php echo htmlspecialchars($structure->heading); ?></td>
-                            <td>
-                            <button type="button" class="btn btn-success" onclick="fetchFormStructure(<?php echo $structure->form_name_id; ?>)">Generate Form</button>
-
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <tr>
-                        <td colspan="4" class="no-forms">No form structures available.</td>
+        <div class="max-w-4xl mx-auto bg-darker-purple rounded-lg shadow-lg p-6 overflow-x-auto">
+            <table class="min-w-full table-auto border-collapse bg-dark-purple text-white">
+                <thead>
+                    <tr class="bg-blue-600">
+                        <th class="px-4 py-2 text-left">ID</th>
+                        <th class="px-4 py-2 text-left">Form Name</th>
+                        <th class="px-4 py-2 text-left">Form Heading</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-        <div id ="test"></div>
+                </thead>
+                <tbody>
+                    <?php if (!empty($form_structure)) : ?>
+                        <?php $rowCount = 1; ?>
+                        <?php foreach ($form_structure as $structure) : ?>
+                            <tr class="border-b border-dark-purple hover:bg-darker-purple">
+                                <td class="px-4 py-2"><?php echo $rowCount++; ?></td>
+                                <td class="px-4 py-2"><?php echo htmlspecialchars($structure->form_name); ?></td>
+                                <td class="px-4 py-2"><?php echo htmlspecialchars($structure->heading); ?></td>
+                                <td class="px-4 py-2">
+                                    <button type="button" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus-visible" onclick="fetchFormStructure(<?php echo $structure->form_name_id; ?>)">
+                                        Generate Form
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="4" class="text-center py-4 italic text-red-500">No form structures available.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="test"></div>
     </div>
 
-    <!-- Bootstrap JS and dependencies (optional) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function fetchFormStructure(formId) {
             $.ajax({
                 url: '<?= base_url('form/get_structure/') ?>' + formId,
                 type: 'GET',
-                dataType:'html',
-                success: function(data) {
-                   // $('#test').html(data);
-                   var newWindow = window.open();
-                   newWindow.document.write(data);
-                   newWindow.document.close(); 
+                dataType: 'html',
+                success: function (data) {
+                    var newWindow = window.open();
+                    newWindow.document.write(data);
+                    newWindow.document.close();
                 },
-                error: function(xhr, status, error) {
-               
+                error: function (xhr, status, error) {
                     console.error('AJAX request failed:', error);
                 }
             });
