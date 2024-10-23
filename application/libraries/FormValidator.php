@@ -3,42 +3,62 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class FormValidator {
 
-    // Constructor
-    public function __construct() {
-        // You can load any required resources here if needed
-    }
-
-    // Validation function for common form fields
+    // This function will validate all form data
     public function validate($data) {
-        $CI =& get_instance(); // Get CodeIgniter instance
-        $CI->load->library('form_validation'); // Load the form validation library
+        $errors = [];
+        $validated_data = [];
 
-        // Set validation rules for common fields
-        $CI->form_validation->set_rules('first_name', 'First Name', 'required|alpha');
-        $CI->form_validation->set_rules('last_name', 'Last Name', 'required|alpha');
-        $CI->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        $CI->form_validation->set_rules('mobile', 'Mobile', 'required|regex_match[/^[0-9]{10}$/]');
-       // $CI->form_validation->set_rules('dob', 'Date of Birth', 'required|callback_validate_date');
+        // Example validation for common fields
+        // You can modify this to include other form fields that are in the 'add' function
 
-        // Run the validation
-        if ($CI->form_validation->run() == FALSE) {
-            // If validation fails, return validation errors
-            return [
-                'status' => false,
-                'errors' => validation_errors()
-            ];
+        // Validate First Name (assuming a 'first_name' field exists)
+        if (empty($data['first_name']) || !preg_match("/^[a-zA-Z\s]+$/", $data['first_name'])) {
+            $errors['first_name'] = "First name is required and should only contain letters and spaces.";
+        } else {
+            $validated_data['first_name'] = $data['first_name'];
         }
 
-        // If validation is successful, return validated data
-        return [
-            'status' => true,
-            'data' => $data
-        ];
-    }
+        // Validate Last Name (assuming a 'last_name' field exists)
+        if (empty($data['last_name']) || !preg_match("/^[a-zA-Z\s]+$/", $data['last_name'])) {
+            $errors['last_name'] = "Last name is required and should only contain letters and spaces.";
+        } else {
+            $validated_data['last_name'] = $data['last_name'];
+        }
 
-    // Optional: Custom callback function to validate date format
-    public function validate_date($date) {
-        $d = DateTime::createFromFormat('Y-m-d', $date);
-        return $d && $d->format('Y-m-d') === $date;
+        // Validate Email (assuming an 'email' field exists)
+        if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "A valid email address is required.";
+        } else {
+            $validated_data['email'] = $data['email'];
+        }
+
+        // Validate Phone Number (assuming a 'phone' field exists)
+        if (empty($data['phone']) || !preg_match("/^[0-9]{10}$/", $data['phone'])) {
+            $errors['phone'] = "Phone number is required and should be 10 digits long.";
+        } else {
+            $validated_data['phone'] = $data['phone'];
+        }
+
+        // Example: Validate NIC (assuming an 'nic' field exists)
+        if (empty($data['nic']) || !preg_match("/^[0-9]{9}[vVxX]$/", $data['nic'])) {
+            $errors['nic'] = "NIC is required and must follow the format (9 digits followed by V/v or X/x).";
+        } else {
+            $validated_data['nic'] = $data['nic'];
+        }
+
+        // Additional validations can go here based on the form structure
+
+        // Return validation result
+        if (!empty($errors)) {
+            return [
+                'status' => false,
+                'errors' => $errors
+            ];
+        } else {
+            return [
+                'status' => true,
+                'data' => $validated_data
+            ];
+        }
     }
 }

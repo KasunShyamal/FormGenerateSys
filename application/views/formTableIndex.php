@@ -40,8 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $form->heading; ?></td>
                             <td>
                                 <!-- <button class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="editForm(<?php echo $form_id; ?>)" title="Edit" style="margin-left: 10px;"><i class="bi bi-pencil-square"></i> Edit</button> -->
-                                <button class="btn btn-secondary btn-sm" href="javascript:void(0);" onclick="viewForm(<?php echo $form_id; ?>)" title="View" style="margin-left: 10px;"><i class="bi bi-eye"></i> View</button>
-                                <button class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteForm(<?php echo $form_id; ?>)" title="Delete" style="margin-left: 10px;"><i class="bi bi-trash"></i> Delete</button>
+                                <!-- <button class="btn btn-secondary btn-sm" href="javascript:void(0);" onclick="viewForm(<?php echo $form_id; ?>)" title="View" style="margin-left: 10px;"><i class="bi bi-eye"></i> View</button> -->
+                                <!-- <button class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteForm(<?php echo $form_id; ?>)" title="Delete" style="margin-left: 10px;"><i class="bi bi-trash"></i> Delete</button> -->
                                 <button class="btn btn-success btn-sm" href="javascript:void(0);" onclick="generateFormTable(<?php echo $form_id; ?>)" title="Generate Form Table" style="margin-left: 10px;"><i class="bi bi-table"></i> Generate Table</button>
                                 <!-- <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#formTableModal" data-form-id="<?php echo $form_id; ?>" title="Generate Form Table" style="margin-left: 10px;"><i class="bi bi-table"></i> Generate Table</button> -->
                             </td>

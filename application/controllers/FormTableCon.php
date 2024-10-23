@@ -41,7 +41,16 @@ class FormTableCon extends CI_Controller {
         $form_fields = implode(",", $form_fields);
         $table_col = $this->FormTableMod->get_table_columns($form_fields);
         $data['table_col'] = $table_col;
-        // var_dump($table_col);die;
+        
+        $form_tbl = $form_name[0]->form_name;
+
+        $col_arr = array();
+        foreach($table_col as $col) {
+            array_push($col_arr, $col['field_name']);  
+        }
+        $col_arr = implode(", ", $col_arr);
+        $tbl_data = $this->FormTableMod->get_table_data($form_tbl, $col_arr);
+        $data['table_data'] = $tbl_data;
         
         $this->session->set_userdata('form_data', $data);
 
@@ -55,7 +64,7 @@ class FormTableCon extends CI_Controller {
     public function show_form_table() {
         
         $data = $this->session->userdata('form_data');
-        
+        // var_dump($data);die;
         if ($data) {
             $this->load->view('formTable', $data);
             $this->session->unset_userdata('form_data');
