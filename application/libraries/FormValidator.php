@@ -18,7 +18,7 @@ class FormValidator {
         $CI->form_validation->set_rules('last_name', 'Last Name', 'required|alpha');
         $CI->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $CI->form_validation->set_rules('mobile', 'Mobile', 'required|regex_match[/^[0-9]{10}$/]');
-        $CI->form_validation->set_rules('dob', 'Date of Birth', 'required|callback_validate_date');
+       // $CI->form_validation->set_rules('dob', 'Date of Birth', 'required|callback_validate_date');
 
         // Run the validation
         if ($CI->form_validation->run() == FALSE) {
