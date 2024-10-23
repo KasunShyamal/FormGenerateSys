@@ -232,9 +232,7 @@
 
                 if (isValid) {
                     const formData = $(this).serialize();
-                    for (var pair of formData.entries()) {
-                        console.log(pair[0] + ', ' + pair[1]);
-                        }
+                    
                     $.ajax({
                         url: '<?= base_url('form/add') ?>',
                         type: 'POST',
