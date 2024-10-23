@@ -69,9 +69,9 @@
     Add New
   </button>
   <h1 class="text-3xl font-semibold text-center text-white mb-8">Form Structure</h1>
-  <div class="overflow-x-auto">
+  <div class="mx-auto bg-darker-purple rounded-lg shadow-lg p-6 overflow-hidden">
     <table class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
-      <thead class="bg-blue-600 text-white uppercase text-sm">
+      <thead class="bg-blue-500 text-white uppercase text-sm">
         <tr>
           <th class="py-3 px-6">ID</th>
           <th class="py-3 px-6">Form Name</th>
@@ -115,80 +115,116 @@
   </div>
 </div>
 
-<div class="modal fade container mt-5 mb-5" id="formStructureModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="modalTitle">Add Form Structure</h5>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<div class="modal-body">
-				<form id="formStructureForm">
-					<div class="form-group">
-						<label for="formName" class="required">Form Name<span class="error-message" id="errorFormName"></span></label>
-						<select class="form-control" id="formName" name="form_name" required>
-							<option value="" disabled selected>Select Form Name</option>
-							<?php foreach ($form_names as $form_name): ?>
-								<option value="<?php echo $form_name->id; ?>"><?php echo $form_name->form_name; ?></option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="segment" class="required">Segment<span class="error-message" id="errorSegment"></span></label>
-						<select class="form-control" id="segment" name="segment" required>
-							<option value="" disabled selected>Select Segment</option>
-							<?php foreach ($segments as $segment): ?>
-								<option value="<?php echo $segment->id; ?>"><?php echo $segment->seg_name; ?></option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="fieldName" class="required">Field Name<span class="error-message" id="errorFieldName"></span></label>
-						<input type="text" class="form-control" id="fieldName" name="field_name"
-							placeholder="Enter Field Name" required>
-					</div>
-					<div class="form-group">
-						<label for="columnType" class="required">Column Type<span class="error-message" id="errorColumnType"></span></label>
-						<select class="form-control" id="columnType" name="column_type" required>
-							<option value="" disabled selected>Select Column Type</option>
-							<?php foreach ($column_types as $column_type): ?>
-								<option value="<?php echo $column_type->id; ?>"><?php echo $column_type->data_type; ?>
-								</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="length" class="required">Length<span class="error-message" id="errorLength"></span></label>
-						<input type="number" class="form-control" id="length" name="length" placeholder="Enter Length"
-							required>
-					</div>
-					<div class="form-group">
-						<label for="dataType" class="required">Data Type<span class="error-message" id="errorDataType"></span></label>
-						<select class="form-control" id="dataType" name="data_type" required>
-							<option value="" disabled selected>Select Data Type</option>
-							<?php foreach ($data_types as $data_type): ?>
-								<option value="<?php echo $data_type->id; ?>"><?php echo $data_type->type; ?></option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="fieldType" class="required">Field Type<span class="error-message" id="errorFieldType"></span></label>
-						<select class="form-control" id="fieldType" name="field_type" required>
-							<option value="" disabled selected>Select Field Type</option>
-							<?php foreach ($field_types as $field_type): ?>
-								<option value="<?php echo $field_type->id; ?>"><?php echo $field_type->field_type; ?>
-								</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<input type="hidden" id="formId">
-					<button type="submit" class="btn btn-primary" onclick="submitFormStructureForm()">
-						Save Form Structure
-					</button>
-				</form>
-			</div>
-		</div>
-	</div>
+<!-- Form Structure Modal -->
+<div class="fixed z-10 inset-0 overflow-y-auto" id="formStructureModal" style="display: none;">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mt-0 text-left sm:mt-0 sm:ml-4 sm:text-left w-full">
+            <h3 class="text-xl leading-6 mb-4 font-medium text-gray-900" id="modalTitle">
+              Form Structure
+            </h3>
+            <div class="mt-2">
+              <form id="formStructureForm" class="flex flex-wrap -mx-3">
+                <div class="w-1/2 px-3">
+                  <div class="mb-4">
+                    <label for="formName" class="block text-gray-700 font-semibold mb-2">
+                      Form Name <span class="text-red-500">*</span>
+                    </label>
+                    <select id="formName" name="form_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                      <option value="" disabled selected>Select Form Name</option>
+                      <?php foreach ($form_names as $form_name): ?>
+                        <option value="<?php echo $form_name->id; ?>"><?php echo $form_name->form_name; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                    <span class="text-red-500 text-sm" id="errorFormName"></span>
+                  </div>
+                  <div class="mb-4">
+                    <label for="segment" class="block text-gray-700 font-semibold mb-2">
+                      Segment <span class="text-red-500">*</span>
+                    </label>
+                    <select id="segment" name="segment" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                      <option value="" disabled selected>Select Segment</option>
+                      <?php foreach ($segments as $segment): ?>
+                        <option value="<?php echo $segment->id; ?>"><?php echo $segment->seg_name; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                    <span class="text-red-500 text-sm" id="errorSegment"></span>
+                  </div>
+                  <div class="mb-4">
+                    <label for="fieldName" class="block text-gray-700 font-semibold mb-2">
+                      Field Name <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="fieldName" name="field_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter Field Name" required>
+                    <span class="text-red-500 text-sm" id="errorFieldName"></span>
+                  </div>
+                  <div class="mb-4">
+                    <label for="columnType" class="block text-gray-700 font-semibold mb-2">
+                      Column Type <span class="text-red-500">*</span>
+                    </label>
+                    <select id="columnType" name="column_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                      <option value="" disabled selected>Select Column Type</option>
+                      <?php foreach ($column_types as $column_type): ?>
+                        <option value="<?php echo $column_type->id; ?>"><?php echo $column_type->data_type; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                    <span class="text-red-500 text-sm" id="errorColumnType"></span>
+                  </div>
+                </div>
+                <div class="w-1/2 px-3">
+                  <div class="mb-4">
+                    <label for="length" class="block text-gray-700 font-semibold mb-2">
+                      Length <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" id="length" name="length" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter Length" required>
+                    <span class="text-red-500 text-sm" id="errorLength"></span>
+                  </div>
+                  <div class="mb-4">
+                    <label for="dataType" class="block text-gray-700 font-semibold mb-2">
+                      Data Type <span class="text-red-500">*</span>
+                    </label>
+                    <select id="dataType" name="data_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                      <option value="" disabled selected>Select Data Type</option>
+                      <?php foreach ($data_types as $data_type): ?>
+                        <option value="<?php echo $data_type->id; ?>"><?php echo $data_type->type; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                    <span class="text-red-500 text-sm" id="errorDataType"></span>
+                  </div>
+                  <div class="mb-4">
+                    <label for="fieldType" class="block text-gray-700 font-semibold mb-2">
+                      Field Type <span class="text-red-500">*</span>
+                    </label>
+                    <select id="fieldType" name="field_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                      <option value="" disabled selected>Select Field Type</option>
+                      <?php foreach ($field_types as $field_type): ?>
+                        <option value="<?php echo $field_type->id; ?>"><?php echo $field_type->field_type; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                    <span class="text-red-500 text-sm" id="errorFieldType"></span>
+                  </div>
+                </div>
+                <input type="hidden" id="formId">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 ">
+        <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" onclick="submitFormStructureForm(event)">
+          Save Form Structure
+        </button>
+        <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -197,7 +233,7 @@
 
 <script>
 	$('#addNew').on('click', function () {
-		$('#formStructureModal').modal('show');
+		$('#formStructureModal').show();
 		$('#modalTitle').text('Add Form Structure');
 		$('#formStructureForm')[0].reset();
 		$('#formId').val('');
@@ -220,7 +256,7 @@
 		$('#fieldType').val(fieldType);
 		$('#formId').val(id);
 		$('#modalTitle').text('Edit Form Structure');
-		$('#formStructureModal').modal('show');
+		$('#formStructureModal').show();
 		$('#errorFormName').text('');
 		$('#errorSegment').text('');
 		$('#errorFieldName').text('');
@@ -330,7 +366,7 @@
 			},
 			success: function (response) {
 				Swal.fire('Success', id ? 'Form structure updated successfully!' : 'Form structure added successfully!', 'success');
-				$('#formStructureModal').modal('hide');
+				$('#formStructureModal').hide();
 				$('#formStructureForm')[0].reset();
 				refreshFormTable();
 			},
@@ -359,4 +395,9 @@
 			}
 		});
 	}
+
+	// Add this at the end of your script
+$('[data-dismiss="modal"]').on('click', function () {
+  $('#formStructureModal').hide();
+});
 </script>
