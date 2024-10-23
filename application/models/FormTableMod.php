@@ -36,5 +36,28 @@ class FormTableMod extends CI_Model {
             return $query->result_array();
         }
     }
+
+    public function save_report($data) {
+        if ($this->db->insert('reports', $data)) {
+            return true;
+        } else {
+            log_message('error', 'Database error: ' . $this->db->_error_message());
+            return false;
+        }
+    }
+
+    // Fetch all saved reports
+public function get_all_reports() {
+    $query = $this->db->get('reports');
+    return $query->result_array();
+}
+
+// Fetch a specific report by its ID
+public function get_report_by_id($report_id) {
+    $query = $this->db->get_where('reports', ['id' => $report_id]);
+    return $query->row_array();
+}
+
+
 }
 ?>

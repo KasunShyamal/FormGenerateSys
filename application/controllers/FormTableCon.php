@@ -64,6 +64,72 @@ class FormTableCon extends CI_Controller {
         }
     }
 
+    public function save_report() {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+    
+        $report_name = $this->input->post('report_name');
+        $report_content = $this->input->post('report_content');
+    
+        if (empty($report_name) || empty($report_content)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid input data']);
+            return;
+        }
+    
+        $data = [
+            'report_name' => $report_name,
+            'report_content' => $report_content,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+    
+        $this->load->model('FormTableMod');
+        
+        try {
+            $result = $this->FormTableMod->save_report($data);
+            if ($result) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to save report']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Exception: ' . $e->getMessage()]);
+        }
+    }
+
+    // Fetch all saved reports
+public function get_saved_reports() {
+    $this->load->model('FormTableMod');
+    $reports = $this->FormTableMod->get_all_reports();
+
+    if ($reports) {
+        echo json_encode(['success' => true, 'reports' => $reports]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'No reports found']);
+    }
+}
+
+// Fetch a specific report by its ID
+public function get_report_by_id() {
+    $report_id = $this->input->post('report_id');
+
+    if (empty($report_id)) {
+        echo json_encode(['success' => false, 'message' => 'Invalid report ID']);
+        return;
+    }
+
+    $this->load->model('FormTableMod');
+    $report = $this->FormTableMod->get_report_by_id($report_id);
+
+    if ($report) {
+        echo json_encode(['success' => true, 'report' => $report]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Report not found']);
+    }
+}
+
+    
+
 }
 
 ?>

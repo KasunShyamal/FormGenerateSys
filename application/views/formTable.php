@@ -18,11 +18,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </head>
 <body>
+<div class="container mt-5">
+    <h4>Saved Reports</h4>
+    <button class="btn btn-primary mb-3" onclick="fetchSavedReports()">Show Saved Reports</button>
+    <div id="savedReportsList" class="list-group">
+        <!-- Reports will be dynamically loaded here -->
+    </div>
+</div>
     
 <div class="container justify-content-center mt-3">
     <div class="clearfix">
         <h3 class="float-start"><?php echo $table_heading; ?></h3>
-        <button class="btn btn-success mt-2 float-end" onclick="generateReport()">GENERATE REPORT</button>
+        <button class="btn btn-success mt-2 float-end" onclick="printPage()">PRINT REPORT</button>
     </div>
     <div class="mt-5">
         <table id="formList" class="table table-striped p-3 border bg-light mt-3" style="width:100%">
@@ -46,6 +53,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     </div>
 
+</div>
+
+<div class="mb-3">
+    <label for="report_name" class="form-label">Report Name</label>
+    <input type="text" class="form-control" id="report_name" placeholder="Enter report name">
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSaveModalLabel">Save Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Do you want to save the report before printing?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="printPage()">No</button>
+                <button type="button" class="btn btn-primary" onclick="saveAndPrintReport()">Yes</button>
+            </div>
+        </div>
+    </div>
 </div>
 
     <div class="modal fade" id="formReportModal" tabindex="-1" aria-labelledby="formReportModalLabel" aria-hidden="true">
@@ -162,6 +193,133 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
+    function printPage() {
+    // Show the confirmation modal
+    $('#confirmSaveModal').modal('show');
+}
+
+function saveAndPrintReport() {
+    var reportName = document.getElementById('report_name').value;
+
+    if (!reportName) {
+        alert('Please enter a report name before saving.');
+        return;
+    }
+
+    // Data to be sent to the server
+    var reportData = {
+        report_name: reportName,
+        report_content: document.getElementById('formList').outerHTML
+    };
+
+    // Save the report to the database
+    $.ajax({
+        url: "<?php echo base_url('FormTableCon/save_report'); ?>", // Update the URL to your controller's save_report method
+        type: 'POST',
+        data: reportData,
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.success) {
+                alert('Report saved successfully!');
+                // Proceed to print the report
+                executePrint();
+            } else {
+                alert('Failed to save the report.');
+            }
+        },
+        error: function() {
+            alert('An error occurred while saving the report.');
+        }
+    });
+
+    // Close the modal
+    $('#confirmSaveModal').modal('hide');
+}
+
+function executePrint() {
+    var tableContent = document.getElementById('formList').outerHTML;
+    var printWindow = window.open('', '', 'height=600,width=800');
+    printWindow.document.write('<html><head><title>Print Report</title>');
+    printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<div class="container mt-3">');
+    printWindow.document.write('<h3>Form List</h3>');
+    printWindow.document.write(tableContent);
+    printWindow.document.write('</div>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+
+    printWindow.onload = function() {
+        printWindow.print();
+        printWindow.close();
+    };
+}
+
+function fetchSavedReports() {
+    $.ajax({
+        url: "<?php echo base_url('FormTableCon/get_saved_reports'); ?>", // Update URL to your controller's method for fetching reports
+        type: 'GET',
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.success) {
+                var reportsList = $('#savedReportsList');
+                reportsList.empty();
+
+                if (data.reports.length === 0) {
+                    reportsList.append('<p class="text-muted">No reports found.</p>');
+                } else {
+                    // Display each report as a clickable item
+                    $.each(data.reports, function(index, report) {
+                        reportsList.append(`
+                            <a href="#" class="list-group-item list-group-item-action" onclick="viewReport(${report.id})">
+                                ${report.report_name} - ${new Date(report.created_at).toLocaleString()}
+                            </a>
+                        `);
+                    });
+                }
+            } else {
+                alert('Failed to fetch saved reports.');
+            }
+        },
+        error: function() {
+            alert('An error occurred while fetching saved reports.');
+        }
+    });
+}
+
+function viewReport(reportId) {
+    $.ajax({
+        url: "<?php echo base_url('FormTableCon/get_report_by_id'); ?>", // Update URL to your controller's method for fetching a specific report
+        type: 'POST',
+        data: { report_id: reportId },
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.success) {
+                // Display the report content
+                var reportContent = data.report.report_content;
+                var printWindow = window.open('', '', 'height=600,width=800');
+                printWindow.document.write('<html><head><title>View Report</title>');
+                printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<div class="container mt-3">');
+                printWindow.document.write('<h3>' + data.report.report_name + '</h3>');
+                printWindow.document.write(reportContent);
+                printWindow.document.write('</div>');
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.focus();
+            } else {
+                alert('Failed to load the report.');
+            }
+        },
+        error: function() {
+            alert('An error occurred while fetching the report.');
+        }
+    });
+}
+
+
 
     
 </script>
