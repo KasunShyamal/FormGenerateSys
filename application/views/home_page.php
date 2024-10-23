@@ -20,37 +20,29 @@
 			color: #a2a5b9;
 		}
 
-		.hover-bg-purple:hover {
-			background-color: #2a2a3c;
-		}
+		 /* Update the hover background color */
+		 .hover-bg-purple {
+            transition: background-color 0.2s ease-in-out;
+        }
 
-		.sidebar-transition {
-			transition: all 0.3s ease-in-out;
-		}
+        .hover-bg-purple:hover {
+            background-color: #2a2a3c;
+        }
 
-		.sidebar-expanded {
-			width: 250px;
-		}
+        /* Sidebar link styles */
+        .sidebar-link {
+            text-decoration: none;
+            color: #a2a5b9; /* Light purple text color */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
 
-		.sidebar-collapsed {
-			width: 64px;
-		}
+        .sidebar-link:hover,
+        .sidebar-link:focus {
+            text-decoration: none;
+            color: #ffffff; /* White text on hover */
+            background-color: #2a2a3c; /* Consistent with hover-bg-purple */
+        }
 
-		.content-transition {
-			transition: margin-left 0.3s ease-in-out;
-		}
-
-		.sidebar-link {
-			color: #a2a5b9;
-			text-decoration: none;
-		}
-
-		.sidebar-link:hover,
-		.sidebar-link:focus,
-		.sidebar-link:active {
-			color: #ffffff;
-			text-decoration: none;
-		}
 	</style>
 </head>
 
@@ -69,21 +61,21 @@
 			</div>
 			<nav class="mt-4 flex flex-col">
 
-				<a href="<?= base_url('form/segment'); ?>" class="flex items-center py-2 px-4 hover-bg-purple transition duration-200">
+				<a href="<?= base_url('form/segment'); ?>" class="sidebar-link flex items-center py-2 px-4 hover-bg-purple transition duration-200">
 					<i class="fas fa-layer-group w-5 text-center"></i> <span class="ml-3 sidebar-text">Segment</span>
 				</a>
 
-				<a href="<?= base_url('form/name'); ?>" class="flex items-center py-2 px-4 hover-bg-purple transition duration-200">
+				<a href="<?= base_url('form/name'); ?>" class="sidebar-link flex items-center py-2 px-4 hover-bg-purple transition duration-200">
 					<i class="fas fa-font w-5 text-center"></i> <span class="ml-3 sidebar-text">Form Name</span>
 				</a>
 				<a href="<?= base_url('form/structure'); ?>" class="sidebar-link flex items-center py-2 px-4 hover-bg-purple transition duration-200">
 					<i class="fas fa-sitemap w-5 text-center"></i> <span class="ml-3 sidebar-text">Form Structure</span>
 				</a>
-				<a href="<?= base_url('form/generate'); ?>" class="flex items-center py-2 px-4 hover-bg-purple transition duration-200">
+				<a href="<?= base_url('form/generate'); ?>" class="sidebar-link flex items-center py-2 px-4 hover-bg-purple transition duration-200">
 					<i class="fas fa-magic w-5 text-center"></i> <span class="ml-3 sidebar-text">Form Generate</span>
 
 				</a>
-				<a href="<?= base_url('login/logout'); ?>" class="flex items-center py-2 px-4 mt-4 hover-bg-purple transition duration-200 rounded">
+				<a href="<?= base_url('login/logout'); ?>" class="sidebar-link flex items-center py-2 px-4 mt-4 hover-bg-purple transition duration-200 rounded">
 					<i class="fas fa-sign-out-alt w-5 text-center"></i> <span class="ml-3 sidebar-text">Logout</span>
 				</a>
 			</nav>

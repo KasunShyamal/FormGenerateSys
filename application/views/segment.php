@@ -8,35 +8,35 @@
 
 <!-- Segment Table -->
 <h1 class="text-3xl font-semibold text-center text-white mb-8">Segment Table</h2>
-<div class="overflow-x-auto bg-gray-700 rounded-lg shadow-md">
-  <table class="w-full table-auto">
-    <thead class="bg-blue-500 text-white">
-      <tr>
-        <th class="py-2 px-4">ID</th>
-        <th class="py-2 px-4">Segment Name</th>
-        <th class="py-2 px-4">Action</th>
+<div class="mx-auto bg-darker-purple rounded-lg shadow-lg p-6 overflow-x-auto">
+<table class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <thead>
+      <tr class="bg-blue-500 text-white">
+        <th class="py-2 px-4 text-left">ID</th>
+        <th class="py-2 px-4 text-left">Segment Name</th>
+        <th class="py-2 px-4 text-left">Action</th>
       </tr>
     </thead>
-    <tbody class="text-gray-50 ">
+    <tbody class="text-gray-50 text-sm bg-gray-700">
       <?php if (!empty($segments)): ?>
         <?php $count = 1; ?>
         <?php foreach ($segments as $segment) { ?>
           <tr class="border-b border-gray-500 hover:bg-gray-600">
-            <td class="py-2 px-4"><?php echo $count++; ?></td>
-            <td class="py-2 px-4"><?php echo $segment->seg_name ?></td>
-            <td class="py-2 px-4">
+            <td class="py-2 px-4 text-left"><?php echo $count++; ?></td>
+            <td class="py-2 px-4 text-left"><?php echo $segment->seg_name ?></td>
+            <td class="py-2 px-4 text-left">
               <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded transition duration-300 ease-in-out" onclick="openEditModal('<?php echo $segment->id ?>', '<?php echo $segment->seg_name ?>')">Edit</button>
             </td>
           </tr>
         <?php } ?>
       <?php else: ?>
         <tr>
-          <td colspan="3" class="py-2 px-4 text-center">No records found</td>
+          <td colspan="3" class="py-2 px-4 text-left">No records found</td>
         </tr>
       <?php endif; ?>
     </tbody>
   </table>
-</div>
+</>
 
 <!-- Modal for Add/Edit Segment -->
 <div class="fixed z-10 inset-0 overflow-y-auto" id="segmentModal" style="display: none;">

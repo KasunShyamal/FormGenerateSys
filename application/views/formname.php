@@ -5,27 +5,27 @@
     Add New
   </button>
   <h1 class="text-3xl font-semibold text-center text-white mb-8">Form Name</h1>
-  <div class="overflow-x-auto bg-gray-700 rounded-lg shadow-md">
-    <table class="w-full table-auto">
+  <div class="mx-auto bg-darker-purple rounded-lg shadow-lg p-6 overflow-x-auto">
+<table class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
       <thead class="bg-blue-500 text-white">
         <tr>
-          <th class="py-2 px-4">ID</th>
-          <th class="py-2 px-4">Form Name</th>
-          <th class="py-2 px-4">Heading</th>
-          <th class="py-2 px-4">Type</th>
-          <th class="py-2 px-4">Action</th>
+          <th class="py-2 px-4 text-left">ID</th>
+          <th class="py-2 px-4 text-left">Form Name</th>
+          <th class="py-2 px-4 text-left">Heading</th>
+          <th class="py-2 px-4 text-left">Type</th>
+          <th class="py-2 px-4 text-left">Action</th>
         </tr>
       </thead>
-      <tbody class="text-gray-50">
+      <tbody class="text-gray-50 text-sm bg-gray-700">
         <?php if (!empty($records)): ?>
           <?php $count = 1; ?>
           <?php foreach ($records as $record) { ?>
             <tr class="border-b border-gray-500 hover:bg-gray-600">
-              <td class="py-2 px-4"><?php echo $count++; ?></td>
-              <td class="py-2 px-4"><?php echo $record->form_name ?></td>
-              <td class="py-2 px-4"><?php echo $record->heading ?></td>
-              <td class="py-2 px-4"><?php echo $record->type ?></td>
-              <td class="py-2 px-4">
+              <td class="py-2 px-4 text-left"><?php echo $count++; ?></td>
+              <td class="py-2 px-4 text-left"><?php echo $record->form_name ?></td>
+              <td class="py-2 px-4 text-left"><?php echo $record->heading ?></td>
+              <td class="py-2 px-4 text-left"><?php echo $record->type ?></td>
+              <td class="py-2 px-4 text-left">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded transition duration-300 ease-in-out" onclick="openEditModal('<?= $record->id ?>', '<?= $record->form_name ?>', '<?= $record->heading ?>', '<?= $record->type ?>')">
                   Edit
                 </button>

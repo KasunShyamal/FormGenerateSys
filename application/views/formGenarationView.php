@@ -21,17 +21,17 @@
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-semibold text-center text-white mb-8">Form Generation</h1>
 
-        <div class="max-w-4xl mx-auto bg-darker-purple rounded-lg shadow-lg p-6 overflow-x-auto">
-            <table class="min-w-full table-auto border-collapse bg-dark-purple text-white">
+        <div class="mx-auto bg-darker-purple rounded-lg shadow-lg p-6 overflow-x-auto">
+            <table class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
                 <thead>
-                    <tr class="bg-blue-600">
+                    <tr class="bg-blue-500 text-white ">
                         <th class="px-4 py-2 text-left">ID</th>
                         <th class="px-4 py-2 text-left">Form Name</th>
                         <th class="px-4 py-2 text-left">Form Heading</th>
                         <th class="px-4 py-2 text-left">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-gray-50 text-sm bg-gray-700">
                     <?php if (!empty($form_structure)) : ?>
                         <?php $rowCount = 1; ?>
                         <?php foreach ($form_structure as $structure) : ?>
