@@ -13,7 +13,9 @@ class FormTableCon extends CI_Controller {
 
     public function index(){
         $data['form_names'] = $this->FormTableMod->get_form_names();
-        $this->load->view('formTableIndex', $data);
+
+        $data1['content'] = $this->load->view('formTableIndex', $data, true);
+        $this->load->view('home_page', $data1);
     }
 
     

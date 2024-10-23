@@ -65,5 +65,6 @@ $route['form/generate'] = 'FormGenerationController';
 $route['form/load'] = 'LoadFileController';
 $route['form/get_structure/(:num)'] = 'FormGenerationController/fetch_structure/$1';
 $route['form/add'] = 'FormGenerationController/add';
+$route['form/report'] = 'FormTableCon';
 $route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route['translate_uri_dashes'] = FALSE; 
