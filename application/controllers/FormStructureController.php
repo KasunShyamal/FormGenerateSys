@@ -73,7 +73,7 @@ class FormStructureController extends CI_Controller
 		$data = array(
 			'form_name_id' => $this->input->post('form_name'),
 			'seg_id' => $this->input->post('segment'),
-			'field_name' => str_replace(' ', ' ', $this->input->post('field_name')),
+			'field_name' => str_replace(' ', '_', $this->input->post('field_name')),
 			'colomn_type_id' => $this->input->post('column_type'),
 			'length' => $this->input->post('length'),
 			'data_type_id' => $this->input->post('data_type'),
@@ -88,7 +88,7 @@ class FormStructureController extends CI_Controller
 		$data = array(
 			'form_name_id' => $this->input->post('form_name'),
 			'seg_id' => $this->input->post('segment'),
-			'field_name' => str_replace(' ', ' ', $this->input->post('field_name')),
+			'field_name' => str_replace(' ', '_', $this->input->post('field_name')),
 			'colomn_type_id' => $this->input->post('column_type'),
 			'length' => $this->input->post('length'),
 			'data_type_id' => $this->input->post('data_type'),
