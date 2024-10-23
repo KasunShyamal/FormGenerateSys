@@ -39,7 +39,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tr>
             </thead>
             <tbody>
-                
+                <?php
+                $counter = 1;
+                foreach($table_data as $tbl){
+                    ?>
+                    <tr>
+                        <td><?php echo $counter; ?></td>
+                        <?php
+                        foreach($tbl as $name){
+                            ?>
+                            <td><?php echo $name; ?></td>
+                            <?php
+                        }
+                        ?>
+                    </tr>
+                    <?php
+                    $counter += 1;
+                }
+                ?>
             </tbody>
             
         </table>

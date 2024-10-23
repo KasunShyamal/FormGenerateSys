@@ -36,5 +36,15 @@ class FormTableMod extends CI_Model {
             return $query->result_array();
         }
     }
+
+    public function get_table_data($form_tbl, $col_arr) {
+        $sql = "SELECT $col_arr FROM $form_tbl";
+        $query = $this->db->query($sql);
+        // var_dump($query);die;
+
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        }
+    }
 }
 ?>
