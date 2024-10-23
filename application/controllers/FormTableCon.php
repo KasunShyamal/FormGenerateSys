@@ -66,7 +66,10 @@ class FormTableCon extends CI_Controller {
         $data = $this->session->userdata('form_data');
         // var_dump($data);die;
         if ($data) {
-            $this->load->view('formTable', $data);
+            // $this->load->view('formTable', $data);
+
+            $data1['content'] = $this->load->view('formTable', $data, true);
+            $this->load->view('home_page', $data1);
             $this->session->unset_userdata('form_data');
         } else {
             redirect('FormTableCon/index'); 
