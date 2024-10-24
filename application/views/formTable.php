@@ -37,10 +37,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
     <div class="container mt-5">
-    <h4>Saved Reports</h4>
-    <button class="btn btn-primary mb-3" onclick="fetchSavedReports()">Show Saved Reports</button>
+    <!-- <h4>Saved Reports</h4> -->
+    <!-- <button class="btn btn-primary mb-3" onclick="fetchSavedReports()">Show Saved Reports</button> -->
     <div id="savedReportsList" class="list-group">
-        <!-- Reports will be dynamically loaded here -->
     </div>
 </div>
     <div class="mt-5">
