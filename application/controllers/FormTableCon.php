@@ -90,6 +90,7 @@ class FormTableCon extends CI_Controller {
         }
     
         $data = [
+            'form_name_id' => $report_name,
             'report_name' => $report_name,
             'report_content' => $report_content,
             'created_at' => date('Y-m-d H:i:s')

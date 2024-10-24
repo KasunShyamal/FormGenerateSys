@@ -18,18 +18,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </head>
 <body>
-<div class="container mt-5">
-    <h4>Saved Reports</h4>
-    <button class="btn btn-primary mb-3" onclick="fetchSavedReports()">Show Saved Reports</button>
-    <div id="savedReportsList" class="list-group">
-        <!-- Reports will be dynamically loaded here -->
-    </div>
-</div>
+
     
 <div class="container justify-content-center mt-3">
-    <div class="clearfix">
-        <h3 class="float-start"><?php echo $table_heading; ?></h3>
-        <button class="btn btn-success mt-2 float-end" onclick="printPage()">PRINT REPORT</button>
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0"><?php echo $table_heading; ?></h3>
+        <div>
+            <button class="btn btn-success me-2" onclick="printPage()">PRINT REPORT</button>
+            <button class="btn btn-primary" onclick="fetchSavedReports()">Show Saved Reports</button>
+        </div>
+    </div>
+
+    <!-- Saved Reports Section -->
+    <div class="container mt-5">
+        <h4>Saved Reports</h4>
+        <div id="savedReportsList" class="list-group">
+            <!-- Reports will be dynamically loaded here -->
+        </div>
     </div>
     <div class="mt-5">
         <table id="formList" class="table table-striped p-3 border bg-light mt-3" style="width:100%">
